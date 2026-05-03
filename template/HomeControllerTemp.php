@@ -23,8 +23,7 @@ class HomeControllerTemp implements Itemplate
 
                 <!-- Botão de Login -->
                 <div class='auth-buttons'>
-                    <button class='btn-login'><i class='fas fa-sign-in-alt'></i> Entrar</button>
-                    <button class='btn-register'><i class='fas fa-user-plus'></i> Registrar</button>
+                    <button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-sign-in-alt'></i> Entrar</button>
                 </div>
             </div>
         </header>";
