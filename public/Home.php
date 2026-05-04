@@ -1,8 +1,8 @@
 <?php
-session_start();
 if (!isset($parametro) || !is_array($parametro)) {
     $parametro = [];
 }
+$usuario = $_SESSION['usuario'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -167,7 +167,7 @@ if (!isset($parametro) || !is_array($parametro)) {
         <div id="entrarModal" class="modal">
             <div class="modal-content auth-modal">
                 <button class="modal-close" onclick="closeEntrarModal()"><i class="fas fa-times"></i></button>
-                
+
                 <!-- Modal Tabs -->
                 <div class="modal-tabs">
                     <button class="tab-btn active" onclick="switchTab('login')">
@@ -182,16 +182,16 @@ if (!isset($parametro) || !is_array($parametro)) {
                 <div id="loginTab" class="tab-content active">
                     <h2 class="tab-title">Bem-vindo de volta!</h2>
                     <p class="tab-subtitle">Faça login para acessar a comunidade</p>
-                    
-                    <form id="loginForm" method="POST" action="#" class="auth-form">
+
+                    <form id="loginForm" method="POST" action="login" class="auth-form">
                         <div class="form-group">
-                            <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
-                            <input type="email" name="loginEmail" id="loginEmail" required placeholder="seu.email@dominio.com">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">
                         </div>
 
                         <div class="form-group">
-                            <label for="loginSenha"><i class="fas fa-lock"></i> Senha</label>
-                            <input type="password" name="loginSenha" id="loginSenha" required placeholder="Digite sua senha">
+                            <label for="senha"><i class="fas fa-lock"></i> Senha</label>
+                            <input type="password" name="senha" id="senha" required placeholder="Digite sua senha">
                         </div>
 
                         <div class="form-remember">
@@ -206,7 +206,7 @@ if (!isset($parametro) || !is_array($parametro)) {
                     </form>
 
                     <div class="form-divider">ou continue com</div>
-                    
+
                     <div class="social-buttons">
                         <button class="social-btn google" title="Login com Google">
                             <i class="fab fa-google"></i>
@@ -224,29 +224,29 @@ if (!isset($parametro) || !is_array($parametro)) {
                 <div id="registerTab" class="tab-content">
                     <h2 class="tab-title">Junte-se a nossa comunidade!</h2>
                     <p class="tab-subtitle">Crie sua conta e comece a participar</p>
-                    
-                    <form id="registerForm" method="POST" action="#" class="auth-form">
+
+                    <form id="registerForm" method="POST" action="registrar" class="auth-form">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="registerNome"><i class="fas fa-user"></i> Nome Completo</label>
-                                <input type="text" name="registerNome" id="registerNome" required placeholder="João Silva">
+                                <label for="nome"><i class="fas fa-user"></i> Nome Completo</label>
+                                <input type="text" name="nome" id="nome" required placeholder="João Silva">
                             </div>
 
                             <div class="form-group">
-                                <label for="registerUsername"><i class="fas fa-at"></i> Usuário</label>
-                                <input type="text" name="registerUsername" id="registerUsername" required placeholder="joaosilva">
+                                <label for="usuario"><i class="fas fa-at"></i> Usuário</label>
+                                <input type="text" name="usuario" id="usuario" required placeholder="joaosilva">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="registerEmail"><i class="fas fa-envelope"></i> Email</label>
-                            <input type="email" name="registerEmail" id="registerEmail" required placeholder="seu.email@dominio.com">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="registerSenha"><i class="fas fa-lock"></i> Senha</label>
-                                <input type="password" name="registerSenha" id="registerSenha" required placeholder="Crie uma senha forte">
+                                <label for="senha"><i class="fas fa-lock"></i> Senha</label>
+                                <input type="password" name="senha" id="senha" required placeholder="Crie uma senha forte">
                             </div>
 
                             <div class="form-group">

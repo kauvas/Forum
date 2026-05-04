@@ -2,7 +2,7 @@
 
 namespace template;
 
-class HomeControllerTemp implements Itemplate
+class UsuarioTemp implements Itemplate
 {
     public function cabecalho()
     {
@@ -24,6 +24,9 @@ class HomeControllerTemp implements Itemplate
                 <!-- Botão de Login -->
                 <div class='auth-buttons'>
                     <button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-sign-in-alt'></i> Entrar</button>
+                </div>
+                <div class='logo'>
+                <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span>
                 </div>
             </div>
         </header>";

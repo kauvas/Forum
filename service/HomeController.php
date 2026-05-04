@@ -6,7 +6,7 @@ use dao\mysql\HomeControllersDAO;
 
 class HomeControllersService extends HomeControllersDAO
 {
-public function teste() 
+    public function teste()
     {
         return parent::teste();
     }

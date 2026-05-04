@@ -8,7 +8,9 @@ class Controller
     public function __construct()
     {
         $this->arrChamadas = [
-            "home" => new Acao("HomeController","Home")
+            "home" => new Acao("HomeController", "Home"),
+            "registrar" => new Acao("Usuario", "registrar"),
+            "login" => new Acao("Usuario", "login")
         ];
     }
 
