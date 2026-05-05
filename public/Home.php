@@ -183,7 +183,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <h2 class="tab-title">Bem-vindo de volta!</h2>
                     <p class="tab-subtitle">Faça login para acessar a comunidade</p>
 
-                    <form id="loginForm" method="POST" action="login" class="auth-form">
+                    <form id="loginForm" method="POST" action="homeL" class="auth-form">
                         <div class="form-group">
                             <label for="email"><i class="fas fa-envelope"></i> Email</label>
                             <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">

@@ -22,7 +22,7 @@ class UsuarioDAO extends MysqlFactory /*implements IUsuarioDAO*/
 
     public function login($email, $senha)
     {
-        $sql = "select usuario from usuarios where email = :email and senha = :senha";
+        $sql = "select usuario,id from usuarios where email = :email and senha = :senha";
         $param = [
             ":email" => $email,
             ":senha" => $senha

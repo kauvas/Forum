@@ -31,13 +31,27 @@ class Usuario
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $usuario = $service->login($email, $senha);
-        if (count($usuario) > 0) {
+        session_start();
+        if (count($usuario) > 0 || $_SESSION["usuario"] !== null) {
             //Login bem-sucedido
-            session_start();
             $_SESSION["usuario"] = $usuario[0]['usuario'];
+            $_SESSION["id_usuario"] = $usuario[0]['id'];
             $this->template->layout("Home.php", ["usuario" => $usuario]);
         } else {
+            session_destroy();
             header("Location: home#erro");
+        }
+    }
+
+    public function redirect()
+    {
+        session_start();
+        if (isset($_SESSION["usuario"])) {
+            $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"]]);
+        }
+        else {
+            session_destroy();
+            header("Location: home");
         }
     }
 }

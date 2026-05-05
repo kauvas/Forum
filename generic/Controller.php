@@ -10,7 +10,9 @@ class Controller
         $this->arrChamadas = [
             "home" => new Acao("HomeController", "Home"),
             "registrar" => new Acao("Usuario", "registrar"),
-            "login" => new Acao("Usuario", "login")
+            "homeL" => new Acao("Usuario", "login"),
+            "perfil" => new Acao("PerfilController", "Perfil"),
+            "redirect" => new Acao("Usuario", "redirect")
         ];
     }
 

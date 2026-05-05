@@ -2,7 +2,7 @@
 
 namespace template;
 
-class UsuarioTemp implements Itemplate
+class PerfilControllerTemp implements Itemplate
 {
     public function cabecalho()
     {
@@ -11,7 +11,7 @@ class UsuarioTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <i class='fas fa-comments'></i>
+                    <a href='redirect'> <i class='fas fa-comments'></i> </a>
                     <span>MY FORUM</span>
                 </div>
 
@@ -30,7 +30,8 @@ class UsuarioTemp implements Itemplate
         </header>";
     }
     public function layout($caminho, $parametro = null)
-    {
+    {   
+        session_start();
         $this->cabecalho();
         if ($parametro !== null) {
             // Torna $parametro disponível no arquivo incluído
