@@ -16,6 +16,10 @@ class HomeController
 
     public function Home()
     {
+        if (session_status() != PHP_SESSION_NONE) {
+            $_SESSION = [];
+            session_destroy();
+        }
         //$service = new HomeControllerService();
         $dados = "teste"; /*$service->getDadosHome();*/
         $this->template->layout("Home.php", ["dados" => $dados]);

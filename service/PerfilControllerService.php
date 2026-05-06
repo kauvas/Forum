@@ -2,9 +2,9 @@
 
 namespace service;
 
-use dao\mysql\UsuarioDAO;
+use dao\mysql\PerfilControllerDAO;
 
-class UsuarioService extends UsuarioDAO
+class PerfilControllerService //extends PerfilControllerDAO
 {
 
 }
