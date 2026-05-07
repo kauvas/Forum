@@ -16,7 +16,16 @@ class Post
 
     public function Post()
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         //$service = new PostService();
+        $dados = "ops"; /*$service->getDadosHome();*/
+        $this->template->layout("Post.php", ["dados" => $dados]);
+    }
+
+    public function postVisitante()
+    {
         $dados = "ops"; /*$service->getDadosHome();*/
         $this->template->layout("Post.php", ["dados" => $dados]);
     }

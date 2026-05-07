@@ -13,8 +13,10 @@ class Controller
             "homeL" => new Acao("Usuario", "login"),
             "perfil" => new Acao("PerfilController", "Perfil"),
             "redirect" => new Acao("Usuario", "redirect"),
+            "redirectVisitante" => new Acao("Usuario", "redirectVisitante"),
             "logout" => new Acao("Usuario", "logout"),
-            "post" => new Acao("Post", "Post")
+            "post" => new Acao("Post", "Post"),
+            "postVisitante" => new Acao("Post", "postVisitante")
         ];
     }
 

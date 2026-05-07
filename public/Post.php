@@ -3,7 +3,7 @@ if (!isset($parametro) || !is_array($parametro)) {
     $parametro = [];
 }
 //echo $_SESSION['usuario'];
-$usuario = $_SESSION['usuario'] ?? null;
+//$usuario = $_SESSION['usuario'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,8 @@ $usuario = $_SESSION['usuario'] ?? null;
     <link rel="stylesheet" href="style/post.css">
 </head>
 <body>
-    <span><?php var_dump($usuario) ?></span>
+    <span><?php var_dump($_SESSION['usuario']) ?></span>
+    <span><?php var_dump(isset($_SESSION)) ?></span>
     <!-- Main Container -->
     <div class="post-container">
         <!-- Post Principal -->
@@ -278,7 +279,151 @@ $usuario = $_SESSION['usuario'] ?? null;
         </div>
     </div>
     
+    <div id="entrarModal" class="modal">
+        <div class="modal-content auth-modal">
+            <button class="modal-close" onclick="closeEntrarModal()"><i class="fas fa-times"></i></button>
+
+            <!-- Modal Tabs -->
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="tab-btn" onclick="switchTab('register')">
+                    <i class="fas fa-user-plus"></i> Cadastro
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginTab" class="tab-content active">
+                <h2 class="tab-title">Bem-vindo de volta!</h2>
+                <p class="tab-subtitle">Faça login para acessar a comunidade</p>
+
+                <form id="loginForm" method="POST" action="homeL" class="auth-form">
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha"><i class="fas fa-lock"></i> Senha</label>
+                        <input type="password" name="senha" id="senha" required placeholder="Digite sua senha">
+                    </div>
+
+                    <div class="form-remember">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <label for="rememberMe">Lembrar-me</label>
+                        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                </form>
+
+                <div class="form-divider">ou continue com</div>
+
+                <div class="social-buttons">
+                    <button class="social-btn google" title="Login com Google">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-btn github" title="Login com GitHub">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="social-btn facebook" title="Login com Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerTab" class="tab-content">
+                <h2 class="tab-title">Junte-se a nossa comunidade!</h2>
+                <p class="tab-subtitle">Crie sua conta e comece a participar</p>
+
+                <form id="registerForm" method="POST" action="registrar" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome"><i class="fas fa-user"></i> Nome Completo</label>
+                            <input type="text" name="nome" id="nome" required placeholder="João Silva">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="usuario"><i class="fas fa-at"></i> Usuário</label>
+                            <input type="text" name="usuario" id="usuario" required placeholder="joaosilva">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="senha"><i class="fas fa-lock"></i> Senha</label>
+                            <input type="password" name="senha" id="senha" required placeholder="Crie uma senha forte">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registerConfirmSenha"><i class="fas fa-lock"></i> Confirmar Senha</label>
+                            <input type="password" name="registerConfirmSenha" id="registerConfirmSenha" required placeholder="Confirme sua senha">
+                        </div>
+                    </div>
+
+                    <div class="form-terms">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">
+                            Concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus"></i> Criar Conta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <script>
+        function openEntrarModal() {
+            document.getElementById('entrarModal').style.display = 'block';
+        }
+
+        function closeEntrarModal() {
+            document.getElementById('entrarModal').style.display = 'none';
+            document.getElementById('loginForm').reset();
+            document.getElementById('registerForm').reset();
+            switchTab('login'); // Retorna para a aba de login
+        }
+
+        function switchTab(tabName) {
+            // Esconde todos os tabs
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+
+            loginTab.classList.remove('active');
+            registerTab.classList.remove('active');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Mostra o tab selecionado
+            if (tabName === 'login') {
+                loginTab.classList.add('active');
+                tabButtons[0].classList.add('active');
+            } else {
+                registerTab.classList.add('active');
+                tabButtons[1].classList.add('active');
+            }
+        }
+
+        // Fechar modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('entrarModal');
+            if (event.target === modal) {
+                closeEntrarModal();
+            }
+        }
         // Adicionar interatividade aos botões
         document.querySelectorAll('.action-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -315,5 +460,6 @@ $usuario = $_SESSION['usuario'] ?? null;
             }
         });
     </script>
+        
 </body>
 </html>

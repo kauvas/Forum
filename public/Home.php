@@ -17,12 +17,12 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
-    
+
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            
+
             <nav class="sidebar-nav">
                 <h3><i class="fas fa-home"></i> Menu</h3>
 
@@ -34,7 +34,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <li><a href="#meus-posts" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
                     <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
                 </ul>
-                
+
                 <hr>
 
                 <h3><i class="fas fa-layer-group"></i> Categorias</h3>
@@ -81,7 +81,10 @@ $usuario = $_SESSION['usuario'] ?? null;
                         </div>
                         <span class="category-badge">Tecnologia</span>
                     </div>
-                    <a href="post"> <h3 class="post-title">Como começar com PHP 8.3?</h3> </a>
+                    <a <?php if (isset($_SESSION)) echo "href='post'";
+                        else echo "href='postVisitante'" ?>>
+                        <h3 class="post-title">Como começar com PHP 8.3?</h3>
+                    </a>
                     <p class="post-excerpt">Alguém tem uma boa documentação ou tutorial para iniciantes em PHP 8.3? Estou começando e gostaria de aprender as melhores práticas desde o início...</p>
                     <div class="post-footer">
                         <span class="post-stats"><i class="fas fa-comment"></i> 5 comentários</span>

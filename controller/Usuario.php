@@ -46,12 +46,15 @@ class Usuario
     public function redirect()
     {
         session_start();
-        if (isset($_SESSION["usuario"])) {
-            $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"]]);
-        }
-        else {
+        $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"]]);
+    }
+
+    public function redirectVisitante()
+    {
+        if (isset($_SESSION)) {
+            $_SESSION = [];
             session_destroy();
-            header("Location: home");
         }
+        header("Location:home");
     }
 }
