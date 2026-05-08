@@ -38,6 +38,10 @@ if (!isset($parametro) || !is_array($parametro)) {
             </div>
 
             <!-- Post Body -->
+             <div class="post-full-category">
+                <h1 class ="post-full-title"><?php echo htmlspecialchars($parametro["posts"][0]['titulo'] ?? 'Sem título'); ?></h1>
+                
+             </div>
             <div class="post-full-body">
                 <h1 class="post-full-title">
                     Como melhorar a performance do seu site com otimizações CSS

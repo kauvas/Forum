@@ -16,12 +16,13 @@ class HomeController
 
     public function Home()
     {
+        $service = new HomeControllerService();
         if (session_status() != PHP_SESSION_NONE) {
             $_SESSION = [];
             session_destroy();
         }
+        $posts = $service->getPosts();
         //$service = new HomeControllerService();
-        $dados = "teste"; /*$service->getDadosHome();*/
-        $this->template->layout("Home.php", ["dados" => $dados]);
+        $this->template->layout("Home.php", ["posts" => $posts]);
     }
 }

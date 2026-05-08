@@ -65,9 +65,34 @@ $usuario = $_SESSION['usuario'] ?? null;
             </div>
 
 
-
             <!-- Posts -->
             <div class="posts-container">
+                <!-- Post Dinâmico -->
+                 
+                <?php if (!empty($parametro)): ?>
+                    <article class="post-item">
+                        <div class="post-header">
+                            <div class="user-info">
+                                <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($parametro['usuario_id'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
+                                <div class="user-details">
+                                    <h4>Usuário #<?php echo htmlspecialchars($parametro["posts"][0]['id_usuario'] ?? 'N/A'); ?></h4>
+                                    <span class="post-date">agora</span>
+                                </div>
+                            </div>
+                            <span class="category-badge">Artigo</span>
+                        </div>
+                        <form action="<?php if (isset($_SESSION)) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
+                        <input type="hidden" name="post_id" value="1">
+                        <button type="submit"> <h3 class="post-title"><?php echo htmlspecialchars($parametro["posts"][0]['titulo'] ?? 'Sem título'); ?></h3> </button>
+                        </form>
+                        <p class="post-excerpt"><?php echo htmlspecialchars($parametro["posts"][0]['conteudo'] ?? 'Sem conteúdo'); ?></p>
+                        <div class="post-footer">
+                            <span class="post-stats"><i class="fas fa-comment"></i> 0 comentários</span>
+                            <span class="post-stats"><i class="fas fa-eye"></i> 0 visualizações</span>
+                            <button class="btn-like"><i class="far fa-heart"></i> 0</button>
+                        </div>
+                    </article>
+                <?php endif; ?>
 
                 <!-- Post Item -->
                 <article class="post-item">
@@ -81,8 +106,8 @@ $usuario = $_SESSION['usuario'] ?? null;
                         </div>
                         <span class="category-badge">Tecnologia</span>
                     </div>
-                    <a <?php if (isset($_SESSION)) echo "href='post'";
-                        else echo "href='postVisitante'" ?>>
+                    <a <?php if (isset($_SESSION)) {$_SESSION['id_post'] = 2; echo "href='post'";}
+                        else {$_SESSION['id_post'] = 2; echo "href='postVisitante'";} ?>>
                         <h3 class="post-title">Como começar com PHP 8.3?</h3>
                     </a>
                     <p class="post-excerpt">Alguém tem uma boa documentação ou tutorial para iniciantes em PHP 8.3? Estou começando e gostaria de aprender as melhores práticas desde o início...</p>
@@ -273,7 +298,6 @@ $usuario = $_SESSION['usuario'] ?? null;
                 </div>
             </div>
         </div>
-        <span><?php var_dump($usuario) ?></span>
     </div>
     <script>
         function openEntrarModal() {

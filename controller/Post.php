@@ -19,14 +19,17 @@ class Post
         if (!isset($_SESSION)) {
             session_start();
         }
-        //$service = new PostService();
-        $dados = "ops"; /*$service->getDadosHome();*/
-        $this->template->layout("Post.php", ["dados" => $dados]);
+        $service = new PostService();
+        $id = $_POST['post_id'];
+        $post = $service->getPost($id);
+        $this->template->layout("Post.php", ["post" => $post]);
     }
 
     public function postVisitante()
     {
-        $dados = "ops"; /*$service->getDadosHome();*/
-        $this->template->layout("Post.php", ["dados" => $dados]);
+        $service = new PostService();
+        $id = $_POST['post_id'];
+        $post = $service->getPost($id);
+        $this->template->layout("Post.php", ["post" => $post]);
     }
 }
