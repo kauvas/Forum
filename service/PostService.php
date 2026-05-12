@@ -10,4 +10,10 @@ class PostService extends PostDAO
     {
         return parent::getPost($id);
     }
+
+    public function criarPost($usuario_id, $titulo, $categoria, $tags, $conteudo)
+    {
+        return parent::criarPost($usuario_id, $titulo, $categoria, $tags, $conteudo);
+    }
+    
 }

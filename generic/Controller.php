@@ -16,7 +16,9 @@ class Controller
             "redirectVisitante" => new Acao("Usuario", "redirectVisitante"),
             "logout" => new Acao("Usuario", "logout"),
             "post" => new Acao("Post", "Post"),
-            "postVisitante" => new Acao("Post", "postVisitante")
+            "postVisitante" => new Acao("Post", "postVisitante"),
+            "carregarCriarPost" => new Acao("Post", "carregarCriarPost"),
+            "salvarPost" => new Acao("Post", "criarPost")
         ];
     }
 

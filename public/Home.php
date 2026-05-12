@@ -33,6 +33,9 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
                     <li><a href="#meus-posts" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
                     <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
+                    <?php if (isset($usuario)) {
+                    echo '<li><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></li>';
+                    } ?>
                 </ul>
 
                 <hr>
@@ -75,7 +78,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                             <div class="user-info">
                                 <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($parametro['usuario_id'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
                                 <div class="user-details">
-                                    <h4>Usuário #<?php echo htmlspecialchars($parametro["posts"][0]['id_usuario'] ?? 'N/A'); ?></h4>
+                                    <h4>Usuário #<?php echo htmlspecialchars($parametro["posts"][0]['usuario_id'] ?? 'N/A'); ?></h4>
                                     <span class="post-date">agora</span>
                                 </div>
                             </div>

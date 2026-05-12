@@ -32,4 +32,24 @@ class Post
         $post = $service->getPost($id);
         $this->template->layout("Post.php", ["post" => $post]);
     }
+
+    public function carregarCriarPost()
+    {
+        session_start();
+        $usuario_id = $_SESSION['id_usuario'];
+        $this->template->layout("CriarPost.php", ["usuario_id" => $usuario_id]);
+    }
+
+    public function criarPost()
+    {
+        session_start();
+        $usuario_id = $_SESSION['id_usuario'];
+        $service = new PostService();
+        $titulo = $_POST['titulo'];
+        $categoria = $_POST['categoria'];
+        $tags = $_POST['tags'];
+        $conteudo = $_POST['conteudo'];
+        $service->criarPost($usuario_id, $titulo, $categoria, $tags, $conteudo);
+        header("Location: redirect");
+    }
 }

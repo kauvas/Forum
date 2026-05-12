@@ -17,8 +17,9 @@ if (!isset($parametro) || !is_array($parametro)) {
     <link rel="stylesheet" href="style/post.css">
 </head>
 <body>
-    <span><?php var_dump($_SESSION['usuario']) ?></span>
-    <span><?php var_dump(isset($_SESSION)) ?></span>
+    <span><?php //var_dump($_SESSION['usuario']) ?></span>
+    <span><?php //var_dump(isset($_SESSION)) ?></span>
+    <span><?php //var_dump($parametro) ?></span>
     <!-- Main Container -->
     <div class="post-container">
         <!-- Post Principal -->
@@ -26,9 +27,9 @@ if (!isset($parametro) || !is_array($parametro)) {
             <!-- Post Header -->
             <div class="post-full-header">
                 <div class="post-full-user">
-                    <img src="https://ui-avatars.com/api/?name=João+Silva&background=random" alt="Autor">
+                    <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($parametro['usuario_id'] ?? 'Anônimo') ?>&background=random" alt="Autor">
                     <div class="post-full-user-info">
-                        <h4>João Silva</h4>
+                        <h4>Usuário #<?php echo htmlspecialchars($parametro["post"][0]['usuario_id'] ?? 'N/A'); ?></h4>
                         <span>em r/DesenvolvimentoWeb • 2 dias atrás</span>
                     </div>
                 </div>
@@ -38,56 +39,9 @@ if (!isset($parametro) || !is_array($parametro)) {
             </div>
 
             <!-- Post Body -->
-             <div class="post-full-category">
-                <h1 class ="post-full-title"><?php echo htmlspecialchars($parametro["posts"][0]['titulo'] ?? 'Sem título'); ?></h1>
-                
-             </div>
             <div class="post-full-body">
-                <h1 class="post-full-title">
-                    Como melhorar a performance do seu site com otimizações CSS
-                </h1>
-
-                <p class="post-full-content">
-                    Olá pessoal! Hoje quero compartilhar algumas dicas incríveis que descobri sobre otimização de CSS 
-                    que podem fazer uma grande diferença no carregamento do seu site.
-                </p>
-
-                <p class="post-full-content">
-                    Existem várias técnicas que podemos usar, como minificação de CSS, eliminação de estilos não utilizados 
-                    com ferramentas como PurgeCSS, e também usar CSS Grid e Flexbox de forma inteligente para reduzir a 
-                    necessidade de media queries.
-                </p>
-
-                <img src="https://via.placeholder.com/700x400" alt="Exemplo de otimização" class="post-full-image">
-
-                <p class="post-full-content">
-                    Uma das melhores práticas é também usar variáveis CSS (CSS Custom Properties) que facilitam a manutenção 
-                    e podem ser manipuladas dinamicamente com JavaScript. Isso torna o código mais organizado e reutilizável.
-                </p>
-
-                <p class="post-full-content">
-                    Compartilhem nos comentários se vocês usam essas técnicas e se têm outras dicas para melhorar a performance!
-                </p>
-
-                <!-- Post Stats -->
-                <div class="post-full-footer">
-                    <div class="post-stat-item">
-                        <i class="fas fa-arrow-up"></i>
-                        <span><strong>1.2K</strong> upvotes</span>
-                    </div>
-                    <div class="post-stat-item">
-                        <i class="fas fa-arrow-down"></i>
-                        <span><strong>45</strong> downvotes</span>
-                    </div>
-                    <div class="post-stat-item">
-                        <i class="fas fa-comment"></i>
-                        <span><strong>89</strong> comentários</span>
-                    </div>
-                    <div class="post-stat-item">
-                        <i class="fas fa-share"></i>
-                        <span><strong>234</strong> compartilhamentos</span>
-                    </div>
-                </div>
+                <h1 class="post-full-title"><?php echo htmlspecialchars($parametro["post"][0]['titulo'] ?? 'Sem título'); ?></h1>
+                <p class="post-full-content"><?php echo htmlspecialchars($parametro["post"][0]['conteudo'] ?? 'Sem conteúdo'); ?></p>
             </div>
 
             <!-- Post Actions -->
@@ -137,148 +91,7 @@ if (!isset($parametro) || !is_array($parametro)) {
 
             <!-- Comments List -->
             <div class="comments-list">
-                <!-- Comment 1 -->
-                <div class="comment-card">
-                    <div class="comment-header">
-                        <div class="comment-user-info">
-                            <img src="https://via.placeholder.com/35" alt="Usuário">
-                            <div class="comment-user-details">
-                                <span class="comment-username">Maria Santos</span>
-                                <span class="comment-time">1 dia atrás</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="comment-text">
-                        Excelente post! Eu já aplicava a maioria dessas técnicas, mas o uso de CSS Custom Properties 
-                        foi uma revelação. Vou implementar no meu projeto agora. Obrigada pela dica!
-                    </p>
-                    <div class="comment-footer">
-                        <div class="comment-votes">
-                            <button><i class="fas fa-arrow-up"></i></button>
-                            <span>342</span>
-                            <button><i class="fas fa-arrow-down"></i></button>
-                        </div>
-                        <div class="comment-actions-small">
-                            <button>Responder</button>
-                            <button>Compartilhar</button>
-                        </div>
-                    </div>
-
-                    <!-- Reply -->
-                    <div class="replies">
-                        <div class="comment-card">
-                            <div class="comment-header">
-                                <div class="comment-user-info">
-                                    <img src="https://via.placeholder.com/35" alt="Usuário">
-                                    <div class="comment-user-details">
-                                        <span class="comment-username">João Silva</span>
-                                        <span class="comment-time">23 horas atrás • OP</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="comment-text">
-                                Fico feliz que tenha ajudado! CSS Custom Properties realmente revolucionam a forma como 
-                                trabalhamos com estilos. Qualquer dúvida, é só chamar! 😊
-                            </p>
-                            <div class="comment-footer">
-                                <div class="comment-votes">
-                                    <button><i class="fas fa-arrow-up"></i></button>
-                                    <span>189</span>
-                                    <button><i class="fas fa-arrow-down"></i></button>
-                                </div>
-                                <div class="comment-actions-small">
-                                    <button>Responder</button>
-                                    <button>Compartilhar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comment 2 -->
-                <div class="comment-card">
-                    <div class="comment-header">
-                        <div class="comment-user-info">
-                            <img src="https://via.placeholder.com/35" alt="Usuário">
-                            <div class="comment-user-details">
-                                <span class="comment-username">Pedro Costa</span>
-                                <span class="comment-time">2 dias atrás</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="comment-text">
-                        Adorei a dica sobre PurgeCSS! Consegui reduzir o tamanho do CSS do meu site em 60%. 
-                        Performance melhorou bastante!
-                    </p>
-                    <div class="comment-footer">
-                        <div class="comment-votes">
-                            <button><i class="fas fa-arrow-up"></i></button>
-                            <span>287</span>
-                            <button><i class="fas fa-arrow-down"></i></button>
-                        </div>
-                        <div class="comment-actions-small">
-                            <button>Responder</button>
-                            <button>Compartilhar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comment 3 -->
-                <div class="comment-card">
-                    <div class="comment-header">
-                        <div class="comment-user-info">
-                            <img src="https://via.placeholder.com/35" alt="Usuário">
-                            <div class="comment-user-details">
-                                <span class="comment-username">Ana Ferreira</span>
-                                <span class="comment-time">1 dia atrás</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="comment-text">
-                        Alguém mais usa Tailwind CSS? Acho que muda um pouco essa abordagem...
-                    </p>
-                    <div class="comment-footer">
-                        <div class="comment-votes">
-                            <button><i class="fas fa-arrow-up"></i></button>
-                            <span>156</span>
-                            <button><i class="fas fa-arrow-down"></i></button>
-                        </div>
-                        <div class="comment-actions-small">
-                            <button>Responder</button>
-                            <button>Compartilhar</button>
-                        </div>
-                    </div>
-
-                    <!-- Reply -->
-                    <div class="replies">
-                        <div class="comment-card">
-                            <div class="comment-header">
-                                <div class="comment-user-info">
-                                    <img src="https://via.placeholder.com/35" alt="Usuário">
-                                    <div class="comment-user-details">
-                                        <span class="comment-username">Carlos Lima</span>
-                                        <span class="comment-time">18 horas atrás</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="comment-text">
-                                Tailwind é ótimo, mas essas técnicas ainda são válidas! Você ainda precisa limpar 
-                                o CSS não utilizado com o PurgeCSS no build final.
-                            </p>
-                            <div class="comment-footer">
-                                <div class="comment-votes">
-                                    <button><i class="fas fa-arrow-up"></i></button>
-                                    <span>78</span>
-                                    <button><i class="fas fa-arrow-down"></i></button>
-                                </div>
-                                <div class="comment-actions-small">
-                                    <button>Responder</button>
-                                    <button>Compartilhar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Comentários dinâmicos serão carregados aqui -->
             </div>
         </div>
     </div>
