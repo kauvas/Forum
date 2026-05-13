@@ -70,121 +70,35 @@ $usuario = $_SESSION['usuario'] ?? null;
 
             <!-- Posts -->
             <div class="posts-container">
-                <!-- Post Dinâmico -->
-                 
-                <?php if (!empty($parametro)): ?>
-                    <article class="post-item">
-                        <div class="post-header">
-                            <div class="user-info">
-                                <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($parametro['usuario_id'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
-                                <div class="user-details">
-                                    <h4>Usuário #<?php echo htmlspecialchars($parametro["posts"][0]['usuario_id'] ?? 'N/A'); ?></h4>
-                                    <span class="post-date">agora</span>
+                <!-- Posts Dinâmicos -->
+
+                <?php //var_dump($parametro)  ?>
+                <?php if (!empty($parametro['posts']) && is_array($parametro['posts'])): ?>
+                    <?php foreach ($parametro['posts'] as $post): ?>
+                        <article class="post-item">
+                            <div class="post-header">
+                                <div class="user-info">
+                                    <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($post['usuario_id'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
+                                    <div class="user-details">
+                                        <h4>Usuário #<?php echo htmlspecialchars($post['usuario_id'] ?? 'N/A'); ?></h4>
+                                        <span class="post-date"><?php echo htmlspecialchars($post['data_criacao'] ?? 'agora'); ?></span>
+                                    </div>
                                 </div>
+                                <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
-                            <span class="category-badge">Artigo</span>
-                        </div>
-                        <form action="<?php if (isset($_SESSION)) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
-                        <input type="hidden" name="post_id" value="1">
-                        <button type="submit"> <h3 class="post-title"><?php echo htmlspecialchars($parametro["posts"][0]['titulo'] ?? 'Sem título'); ?></h3> </button>
-                        </form>
-                        <p class="post-excerpt"><?php echo htmlspecialchars($parametro["posts"][0]['conteudo'] ?? 'Sem conteúdo'); ?></p>
-                        <div class="post-footer">
-                            <span class="post-stats"><i class="fas fa-comment"></i> 0 comentários</span>
-                            <span class="post-stats"><i class="fas fa-eye"></i> 0 visualizações</span>
-                            <button class="btn-like"><i class="far fa-heart"></i> 0</button>
-                        </div>
-                    </article>
+                            <form action="<?php if (isset($_SESSION['usuario'])) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
+                            <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id'] ?? ''); ?>">
+                            <button type="submit"> <h3 class="post-title"><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
+                            </form>
+                            <p class="post-excerpt"><?php echo htmlspecialchars($post['conteudo'] ?? 'Sem conteúdo'); ?></p>
+                            <div class="post-footer">
+                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($post['num_comentarios'] ?? '0'); ?> comentários</span>
+                                <span class="post-stats"><i class="fas fa-eye"></i> <?php echo htmlspecialchars($post['visualizacoes'] ?? '0'); ?> visualizações</span>
+                                <button class="btn-like"><i class="far fa-heart"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?></button>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
                 <?php endif; ?>
-
-                <!-- Post Item -->
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=João+Silva&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>João Silva</h4>
-                                <span class="post-date">há 2 horas</span>
-                            </div>
-                        </div>
-                        <span class="category-badge">Tecnologia</span>
-                    </div>
-                    <a <?php if (isset($_SESSION)) {$_SESSION['id_post'] = 2; echo "href='post'";}
-                        else {$_SESSION['id_post'] = 2; echo "href='postVisitante'";} ?>>
-                        <h3 class="post-title">Como começar com PHP 8.3?</h3>
-                    </a>
-                    <p class="post-excerpt">Alguém tem uma boa documentação ou tutorial para iniciantes em PHP 8.3? Estou começando e gostaria de aprender as melhores práticas desde o início...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 5 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 127 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 12</button>
-                    </div>
-                </article>
-
-                <!-- Post Item -->
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=Maria+Santos&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>Maria Santos</h4>
-                                <span class="post-date">há 4 horas</span>
-                            </div>
-                        </div>
-                        <span class="category-badge design">Design</span>
-                    </div>
-                    <h3 class="post-title">Tendências de Design em 2024</h3>
-                    <p class="post-excerpt">Compartilhando as principais tendências de design que estou vendo este ano. Desde minimalismo até design responsivo, tudo está mudando...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 12 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 342 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 45</button>
-                    </div>
-                </article>
-
-                <!-- Post Item -->
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=Carlos+Oliveira&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>Carlos Oliveira</h4>
-                                <span class="post-date">há 6 horas</span>
-                            </div>
-                        </div>
-                        <span class="category-badge dev">Desenvolvimento</span>
-                    </div>
-                    <h3 class="post-title">Melhorar performance em banco de dados</h3>
-                    <p class="post-excerpt">Estou tendo problemas com queries lentas. Alguém tem dicas de otimização de índices ou técnicas para melhorar performance? Meu banco está crescendo...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 8 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 256 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 32</button>
-                    </div>
-                </article>
-
-                <!-- Post Item -->
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=Ana+Costa&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>Ana Costa</h4>
-                                <span class="post-date">há 8 horas</span>
-                            </div>
-                        </div>
-                        <span class="category-badge security">Segurança</span>
-                    </div>
-                    <h3 class="post-title">Boas práticas de segurança em aplicações web</h3>
-                    <p class="post-excerpt">Gostaria de compartilhar algumas boas práticas de segurança que venho aplicando. SQL Injection, XSS e CSRF são vulnerabilidades comuns...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 15 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 523 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 78</button>
-                    </div>
-                </article>
-
-            </div>
 
             <!-- Paginação -->
             <div class="pagination">

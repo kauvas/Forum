@@ -31,12 +31,14 @@ class Usuario
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $usuario = $service->login($email, $senha);
+        $posts = $service->getPosts();
         session_start();
         if (count($usuario) > 0 || $_SESSION["usuario"] !== null) {
             //Login bem-sucedido
             $_SESSION["usuario"] = $usuario[0]['usuario'];
             $_SESSION["id_usuario"] = $usuario[0]['id'];
-            $this->template->layout("Home.php", ["usuario" => $usuario]);
+
+            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts]);
         } else {
             session_destroy();
             header("Location: home#erro");
@@ -46,7 +48,9 @@ class Usuario
     public function redirect()
     {
         session_start();
-        $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"]]);
+        $service = new UsuarioService();
+        $posts = $service->getPosts();
+        $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"], "posts" => $posts]);
     }
 
     public function redirectVisitante()

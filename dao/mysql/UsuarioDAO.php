@@ -30,4 +30,11 @@ class UsuarioDAO extends MysqlFactory /*implements IUsuarioDAO*/
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function getPosts()
+    {
+        $sql = "select * from posts";
+        $retorno = $this->banco->executar($sql);
+        return $retorno;
+    }
 }

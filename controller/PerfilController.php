@@ -16,8 +16,9 @@ class PerfilController
 
     public function Perfil()
     {
-        //$service = new PerfilControllerService();
-        $dados = "teste"; /*$service->getDadosHome();*/
-        $this->template->layout("Perfil.php", ["dados" => $dados]);
+        $service = new PerfilControllerService();
+        session_start();
+        $posts = $service-> getPostsID($_SESSION['id_usuario']);
+        $this->template->layout("Perfil.php", ["posts" => $posts]);
     }
 }

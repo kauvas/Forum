@@ -31,7 +31,6 @@ class PerfilControllerTemp implements Itemplate
     }
     public function layout($caminho, $parametro = null)
     {   
-        session_start();
         $this->cabecalho();
         if ($parametro !== null) {
             // Torna $parametro disponível no arquivo incluído

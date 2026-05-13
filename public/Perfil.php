@@ -18,6 +18,7 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
+    <?php var_dump($parametro) ?>
 
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
@@ -93,116 +94,32 @@ $usuario = $_SESSION['usuario'] ?? null;
 
             <!-- Conteúdo das Abas -->
             <div id="postsTab" class="tab-pane active">
-                <!-- Posts do Usuário -->
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($usuario)); ?>&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>u/<?php echo htmlspecialchars($usuario); ?></h4>
-                                <span class="post-date">há 2 dias</span>
+                <!-- Posts do Usuário - Dinâmicos -->
+                <?php if (!empty($parametro['posts']) && is_array($parametro['posts'])): ?>
+                    <?php foreach ($parametro['posts'] as $post): ?>
+                        <article class="post-item">
+                            <div class="post-header">
+                                <div class="user-info">
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($usuario)); ?>&background=random" alt="Usuário">
+                                    <div class="user-details">
+                                        <h4>u/<?php echo htmlspecialchars($usuario); ?></h4>
+                                        <span class="post-date"><?php echo htmlspecialchars($post['data_criacao'] ?? 'agora'); ?></span>
+                                    </div>
+                                </div>
+                                <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
-                        </div>
-                        <span class="category-badge">Tecnologia</span>
-                    </div>
-                    <h3 class="post-title">Meu primeiro projeto em React - Dúvidas sobre performance</h3>
-                    <p class="post-excerpt">Acabei de terminar meu primeiro projeto real em React e gostaria de ouvir feedbacks sobre performance e boas práticas. O projeto é um dashboard de análise de dados...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 12 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 342 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 45</button>
-                    </div>
-                </article>
-
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($usuario)); ?>&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>u/<?php echo htmlspecialchars($usuario); ?></h4>
-                                <span class="post-date">há 5 dias</span>
+                            <h3 class="post-title"><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
+                            <p class="post-excerpt"><?php echo htmlspecialchars($post['conteudo'] ?? 'Sem conteúdo'); ?></p>
+                            <div class="post-footer">
+                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($post['num_comentarios'] ?? '0'); ?> comentários</span>
+                                <span class="post-stats"><i class="fas fa-eye"></i> <?php echo htmlspecialchars($post['visualizacoes'] ?? '0'); ?> visualizações</span>
+                                <button class="btn-like"><i class="far fa-heart"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?></button>
                             </div>
-                        </div>
-                        <span class="category-badge dev">Desenvolvimento</span>
-                    </div>
-                    <h3 class="post-title">Dicas de SEO para iniciantes - Tudo que você precisa saber</h3>
-                    <p class="post-excerpt">Compilei todas as dicas de SEO que aprendi e achei relevante compartilhar. São estratégias simples mas muito efetivas para melhorar o ranking no Google...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 28 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 892 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 156</button>
-                    </div>
-                </article>
-
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($usuario)); ?>&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>u/<?php echo htmlspecialchars($usuario); ?></h4>
-                                <span class="post-date">há 1 semana</span>
-                            </div>
-                        </div>
-                        <span class="category-badge design">Design</span>
-                    </div>
-                    <h3 class="post-title">Paleta de cores 2024 - Tendências em Design UI/UX</h3>
-                    <p class="post-excerpt">Compartilhando as cores mais tendência para este ano. A tendência é voltar para paletas mais quentes e minimalistas. Veja as recomendações completas...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 15 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 523 visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 89</button>
-                    </div>
-                </article>
-            </div>
-
-            <div id="comentariosTab" class="tab-pane">
-                <div class="comment-section">
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <h4>Em resposta a: "Como começar com PHP 8.3?"</h4>
-                            <span class="comment-date">há 3 dias</span>
-                        </div>
-                        <p class="comment-text">Eu recomendo começar com a documentação oficial do PHP. Depois explore os padrões de design como MVC, SOLID, etc. A prática constante é a chave! 💪</p>
-                        <div class="comment-actions">
-                            <span class="comment-likes"><i class="fas fa-heart"></i> 34</span>
-                            <button>Responder</button>
-                        </div>
-                    </div>
-
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <h4>Em resposta a: "Segurança em aplicações web"</h4>
-                            <span class="comment-date">há 5 dias</span>
-                        </div>
-                        <p class="comment-text">Excelente lista! Adiciono também validação rigorosa de inputs e uso de tokens CSRF. A segurança nunca é demais. Ótimo compartilhamento!</p>
-                        <div class="comment-actions">
-                            <span class="comment-likes"><i class="fas fa-heart"></i> 67</span>
-                            <button>Responder</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="savedTab" class="tab-pane">
-                <article class="post-item">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=João+Silva&background=random" alt="Usuário">
-                            <div class="user-details">
-                                <h4>u/João Silva</h4>
-                                <span class="post-date">há 1 dia</span>
-                            </div>
-                        </div>
-                        <span class="category-badge">Tecnologia</span>
-                    </div>
-                    <h3 class="post-title">TypeScript vs JavaScript - Quando usar cada um?</h3>
-                    <p class="post-excerpt">Uma análise profunda sobre quando é melhor usar TypeScript e quando JavaScript puro é suficiente. Discutindo trade-offs e casos de uso específicos...</p>
-                    <div class="post-footer">
-                        <span class="post-stats"><i class="fas fa-comment"></i> 45 comentários</span>
-                        <span class="post-stats"><i class="fas fa-eye"></i> 1.2K visualizações</span>
-                        <button class="btn-like"><i class="far fa-heart"></i> 234</button>
-                    </div>
-                </article>
+                        </article>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="text-align: center; padding: 20px;">Nenhum post ainda. Comece a compartilhar!</p>
+                <?php endif; ?>
             </div>
         </main>
     </div>
