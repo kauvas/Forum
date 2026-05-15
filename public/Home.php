@@ -74,9 +74,10 @@ $usuario = $_SESSION['usuario'] ?? null;
 
                 <?php //var_dump($parametro)  ?>
                 <?php if (!empty($parametro['posts']) && is_array($parametro['posts'])): ?>
-                    <?php foreach ($parametro['posts'] as $post): ?>
+                    <?php foreach ($parametro['posts'] as $post): ; //var_dump($post["post_id"]); ?>
                         <article class="post-item">
                             <div class="post-header">
+                                
                                 <div class="user-info">
                                     <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($post['usuario_id'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
                                     <div class="user-details">
@@ -87,7 +88,8 @@ $usuario = $_SESSION['usuario'] ?? null;
                                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
                             <form action="<?php if (isset($_SESSION['usuario'])) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
-                            <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id'] ?? ''); ?>">
+                            <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>">
+                            
                             <button type="submit"> <h3 class="post-title"><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
                             </form>
                             <p class="post-excerpt"><?php echo htmlspecialchars($post['conteudo'] ?? 'Sem conteúdo'); ?></p>
