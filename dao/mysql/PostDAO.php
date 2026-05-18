@@ -19,7 +19,8 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
 
     public function getPost($id)
     {
-        $sql = "select * from posts where post_id = :post_id";
+        
+        $sql = "select p.*, u.nome as nome_usuario from posts p left join usuarios u on p.usuario_id = u.id where p.post_id = :post_id";
         $param = [
             ":post_id" => $id
         ];

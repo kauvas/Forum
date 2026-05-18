@@ -19,7 +19,7 @@ class HomeControllerDAO extends MysqlFactory /*implements IHomeControllerDAO*/
 
     public function getPosts()
     {
-        $sql = "select * from posts";
+        $sql = "select p.*, u.nome as nome_usuario from posts p left join usuarios u on p.usuario_id = u.id";
         $retorno = $this->banco->executar($sql);
         return $retorno;
     }

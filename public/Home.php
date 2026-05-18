@@ -74,14 +74,14 @@ $usuario = $_SESSION['usuario'] ?? null;
 
                 <?php //var_dump($parametro)  ?>
                 <?php if (!empty($parametro['posts']) && is_array($parametro['posts'])): ?>
-                    <?php foreach ($parametro['posts'] as $post): ; //var_dump($post["post_id"]); ?>
+                    <?php foreach ($parametro['posts'] as $post): ; //var_dump($post["conteudo"]); ?>
                         <article class="post-item">
                             <div class="post-header">
                                 
                                 <div class="user-info">
-                                    <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($post['usuario_id'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($post['nome_usuario'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
                                     <div class="user-details">
-                                        <h4>Usuário #<?php echo htmlspecialchars($post['usuario_id'] ?? 'N/A'); ?></h4>
+                                        <h4><?php echo htmlspecialchars($post['nome_usuario'] ?? 'Usuário Anônimo'); ?></h4>
                                         <span class="post-date"><?php echo htmlspecialchars($post['data_criacao'] ?? 'agora'); ?></span>
                                     </div>
                                 </div>
@@ -89,10 +89,17 @@ $usuario = $_SESSION['usuario'] ?? null;
                             </div>
                             <form action="<?php if (isset($_SESSION['usuario'])) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
                             <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>">
-                            
-                            <button type="submit"> <h3 class="post-title"><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
+                            <button class='btn-titulo' type="submit"> <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
                             </form>
-                            <p class="post-excerpt"><?php echo htmlspecialchars($post['conteudo'] ?? 'Sem conteúdo'); ?></p>
+                            <p class="post-excerpt"><?php 
+                                $conteudo = $post['conteudo'] ?? 'Sem conteúdo';
+                                $tam_string = 180;
+                                if (strlen($conteudo) > $tam_string) {
+                                    echo htmlspecialchars(substr($conteudo, 0, $tam_string)) . '...';
+                                } else {
+                                    echo htmlspecialchars($conteudo);
+                                }
+                            ?><br></p>
                             <div class="post-footer">
                                 <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($post['num_comentarios'] ?? '0'); ?> comentários</span>
                                 <span class="post-stats"><i class="fas fa-eye"></i> <?php echo htmlspecialchars($post['visualizacoes'] ?? '0'); ?> visualizações</span>

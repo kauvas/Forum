@@ -27,9 +27,9 @@ if (!isset($parametro) || !is_array($parametro)) {
             <!-- Post Header -->
             <div class="post-full-header">
                 <div class="post-full-user">
-                    <img src="https://ui-avatars.com/api/?name=Usuário+<?php echo htmlspecialchars($parametro['usuario_id'] ?? 'Anônimo') ?>&background=random" alt="Autor">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($parametro["post"][0]['nome_usuario'] ?? 'Anônimo') ?>&background=random" alt="Autor">
                     <div class="post-full-user-info">
-                        <h4>Usuário #<?php echo htmlspecialchars($parametro["post"][0]['usuario_id'] ?? 'N/A'); ?></h4>
+                        <h4><?php echo htmlspecialchars($parametro["post"][0]['nome_usuario'] ?? 'N/A'); ?></h4>
                         <span>em r/DesenvolvimentoWeb • 2 dias atrás</span>
                     </div>
                 </div>
