@@ -22,7 +22,8 @@ class Post
         $service = new PostService();
         $id = $_POST['post_id'];
         $post = $service->getPost($id);
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id]);
+        $comentarios = $service->getComentarios($id);
+        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios]);
     }
 
     public function postVisitante()
@@ -51,5 +52,18 @@ class Post
         $conteudo = $_POST['conteudo'];
         $service->criarPost($usuario_id, $titulo, $categoria, $tags, $conteudo);
         header("Location: redirect");
+    }
+
+    public function criarComentario()
+    {
+        session_start();
+        $usuario_id = $_SESSION['id_usuario'];
+        $service = new PostService();
+        $post_id = $_POST['post_id'];
+        $conteudo = $_POST['conteudo'];
+        $service->criarComentario($post_id, $usuario_id, $conteudo);
+        $post = $service->getPost($post_id);
+        $comentarios = $service->getComentarios($post_id);
+        $this->template->layout("Post.php", ["post" => $post, "id" => $post_id, "comentarios" => $comentarios]);
     }
 }

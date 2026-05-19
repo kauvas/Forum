@@ -19,7 +19,7 @@ if (!isset($parametro) || !is_array($parametro)) {
 <body>
     <span><?php //var_dump($_SESSION['usuario']) ?></span>
     <span><?php //var_dump(isset($_SESSION)) ?></span>
-    <span><?php //var_dump($parametro) ?></span>
+    <span><?php var_dump($parametro) ?></span>
     <!-- Main Container -->
     <div class="post-container">
         <!-- Post Principal -->
@@ -73,25 +73,60 @@ if (!isset($parametro) || !is_array($parametro)) {
         <div class="comments-section">
             <h2 class="comments-header">
                 <i class="fas fa-comments"></i>
-                Comentários (89)
+                Comentários (<span id="comentariosCount">0</span>)
             </h2>
 
-            <!-- Comment Form -->
-            <div class="comment-form">
+            <!-- Comment Form - Apenas para usuários logados -->
+            <?php if (isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])): ?>
+            <div class="comment-form" id="commentFormLogado">
                 <div class="comment-form-header">
-                    <img src="https://via.placeholder.com/40" alt="Seu avatar">
-                    <span style="color: #666; font-weight: 500;">Comentar como <strong>Você</strong></span>
+                    <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($_SESSION['usuario'] ?? 'Usuário') ?>&background=random" alt="Seu avatar">
+                    <span style="color: #666; font-weight: 500;">Comentar como <strong><?php echo htmlspecialchars($_SESSION['usuario']); ?></strong></span>
                 </div>
-                <textarea class="comment-form-input" placeholder="O que você pensa sobre isso?"></textarea>
+                <form method='POST' action='criarComentario'>
+                <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
+                <textarea class="comment-form-input" id="conteudo" name="conteudo" placeholder="O que você pensa sobre isso?" maxlength="600"></textarea>
                 <div class="comment-form-actions">
-                    <button class="btn-cancel">Cancelar</button>
-                    <button class="btn-submit">Comentar</button>
+                    <button class="btn-submit" type="submit" id="submitComentario">Comentar</button>
                 </div>
+                </form>
             </div>
+            <?php else: ?>
+            <!-- Mensagem para usuários não logados -->
+            <div class="comment-form-login-prompt">
+                <i class="fas fa-lock"></i>
+                <p>Faça <a href="#" onclick="openEntrarModal(); return false;">login</a> para comentar neste post</p>
+            </div>
+            <?php endif; ?>
 
             <!-- Comments List -->
-            <div class="comments-list">
-                <!-- Comentários dinâmicos serão carregados aqui -->
+            <div class="comments-list" id="comentariosList">
+                <?php if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])): ?>
+                    <?php foreach ($parametro['comentarios'] as $comentario): ?>
+                        <article class="comment-item">
+                            <div class="comment-header">
+                                <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo'); ?>&background=random" 
+                                     alt="<?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Usuário'); ?>" 
+                                     class="comment-avatar">
+                                <div class="comment-info">
+                                    <strong class="comment-author"><?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo'); ?></strong>
+                                    <span class="comment-date"><?php echo htmlspecialchars($comentario['data_criacao'] ?? 'Agora'); ?></span>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <p><?php echo htmlspecialchars($comentario['conteudo']); ?></p>
+                            </div>
+                            <div class="comment-actions-small">
+                                <button class="btn-reply" type="button"><i class="fas fa-reply"></i> Responder</button>
+                                <button class="btn-like" type="button"><i class="fas fa-thumbs-up"></i> <span>0</span></button>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-comments">
+                        <p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -241,6 +276,7 @@ if (!isset($parametro) || !is_array($parametro)) {
                 closeEntrarModal();
             }
         }
+
         // Adicionar interatividade aos botões
         document.querySelectorAll('.action-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -252,29 +288,6 @@ if (!isset($parametro) || !is_array($parametro)) {
                     this.classList.add('downvoted');
                 }
             });
-        });
-
-        // Toggle comment form
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            if (btn.innerText.includes('Comentar')) {
-                btn.addEventListener('click', function() {
-                    document.querySelector('.comment-form-input').focus();
-                });
-            }
-        });
-
-        // Cancelar comentário
-        document.querySelector('.btn-cancel').addEventListener('click', function() {
-            document.querySelector('.comment-form-input').value = '';
-        });
-
-        // Responder comentário
-        document.querySelectorAll('.comment-actions-small button').forEach(btn => {
-            if (btn.innerText === 'Responder') {
-                btn.addEventListener('click', function() {
-                    alert('Recurso de resposta será implementado em breve!');
-                });
-            }
         });
     </script>
         
