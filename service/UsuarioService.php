@@ -20,5 +20,9 @@ class UsuarioService extends UsuarioDAO
     {
         return parent::getPosts();
     }
+    public function getCategories()
+    {
+        return parent::getCategories();
+    }
 }
 

@@ -32,13 +32,14 @@ class Usuario
         $senha = $_POST['senha'];
         $usuario = $service->login($email, $senha);
         $posts = $service->getPosts();
+        $categorias = $service->getCategories();
         session_start();
         if (count($usuario) > 0 || $_SESSION["usuario"] !== null) {
             //Login bem-sucedido
             $_SESSION["usuario"] = $usuario[0]['usuario'];
             $_SESSION["id_usuario"] = $usuario[0]['id'];
 
-            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts]);
+            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts, "categorias" => $categorias]);
         } else {
             session_destroy();
             header("Location: home#erro");

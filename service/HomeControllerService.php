@@ -14,4 +14,12 @@ class HomeControllerService extends HomeControllerDAO
     {
         return parent::getPosts();
     }
+    public function getCategories()
+    {
+        return parent::getCategories();
+    }
+    public function getPostsByCategory($categoria)
+    {
+        return parent::getPostsByCategory($categoria);
+    }
 }

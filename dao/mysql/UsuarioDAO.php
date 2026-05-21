@@ -37,4 +37,11 @@ class UsuarioDAO extends MysqlFactory /*implements IUsuarioDAO*/
         $retorno = $this->banco->executar($sql);
         return $retorno;
     }
+
+    public function getCategories()
+    {
+        $sql = "SELECT categoria, COUNT(*) as total_posts FROM posts GROUP BY categoria ORDER BY categoria";
+        $retorno = $this->banco->executar($sql);
+        return $retorno;
+    }
 }

@@ -31,7 +31,8 @@ class Post
         $service = new PostService();
         $id = $_POST['post_id'];
         $post = $service->getPost($id);
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id]);
+        $comentarios = $service->getComentarios($id);
+        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios]);
     }
 
     public function carregarCriarPost()

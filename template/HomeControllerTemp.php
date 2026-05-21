@@ -6,6 +6,31 @@ class HomeControllerTemp implements Itemplate
 {
     public function cabecalho()
     {
+        //session_start();
+        if (isset($_SESSION['usuario'])) {
+            echo "<header class='header'>
+            <div class='header-container'>
+                <!-- Logo -->
+                <div class='logo'>
+                    <i class='fas fa-comments'></i>
+                    <span>MY FORUM</span>
+                </div>
+
+                <!-- Barra de Pesquisa -->
+                <div class='search-bar'>
+                    <input type='text' placeholder='Pesquisar tópicos, categorias...'>
+                    <button><i class='fas fa-search'></i></button>
+                </div>
+                <div class='logo'>
+                <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span>
+                </div>
+                <div class='logo'>
+                    <a href='perfil'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-comments'></i> </button></a>
+                </div>
+            </div>
+        </header>";
+        }
+        else {
         echo
         "<header class='header'>
             <div class='header-container'>
@@ -27,6 +52,7 @@ class HomeControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
+        }
     }
     public function layout($caminho, $parametro = null)
     {

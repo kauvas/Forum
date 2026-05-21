@@ -17,7 +17,7 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
-
+<?php //var_dump($parametro['teste']); var_dump($usuario)  ?>
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
         <!-- SIDEBAR -->
@@ -39,14 +39,14 @@ $usuario = $_SESSION['usuario'] ?? null;
                 </ul>
 
                 <hr>
-
+                
                 <h3><i class="fas fa-layer-group"></i> Categorias</h3>
                 <ul class="categories-list">
-                    <li><a href="#" class="category-link"><span class="badge">12</span> Tecnologia</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">8</span> Desenvolvimento</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">15</span> Design</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">5</span> Segurança</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">20</span> Discussões Gerais</a></li>
+                    <?php if (!empty($parametro['categorias']) && is_array($parametro['categorias'])): ?>
+                        <?php foreach ($parametro['categorias'] as $categoria): ?>
+                            <li><a href="filtrarCategoria?categoria=<?php echo $categoria['categoria']?>" class="category-link"><span class="badge"><?php echo htmlspecialchars($categoria['total_posts'] ?? '0'); ?></span> <?php echo htmlspecialchars($categoria['categoria'] ?? 'Sem nome'); ?></a></li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </ul>
 
                 <hr>

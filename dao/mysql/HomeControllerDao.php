@@ -23,4 +23,21 @@ class HomeControllerDAO extends MysqlFactory /*implements IHomeControllerDAO*/
         $retorno = $this->banco->executar($sql);
         return $retorno;
     }
+
+    public function getCategories()
+    {
+        $sql = "SELECT categoria, COUNT(*) as total_posts FROM posts GROUP BY categoria ORDER BY categoria";
+        $retorno = $this->banco->executar($sql);
+        return $retorno;
+    }
+
+    public function getPostsByCategory($categoria)
+    {
+        $sql = "select p.*, u.nome as nome_usuario from posts p left join usuarios u on p.usuario_id = u.id where p.categoria = :categoria";
+        $param = [
+            ":categoria" => $categoria,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
 }

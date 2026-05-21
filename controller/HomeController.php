@@ -17,12 +17,32 @@ class HomeController
     public function Home()
     {
         $service = new HomeControllerService();
-        if (session_status() != PHP_SESSION_NONE) {
-            $_SESSION = [];
-            session_destroy();
-        }
+        session_start();
+        $_SESSION = [];
+        session_destroy();
         $posts = $service->getPosts();
-        //$service = new HomeControllerService();
-        $this->template->layout("Home.php", ["posts" => $posts]);
+        $categorias = $service->getCategories();
+        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias]);
+    }
+
+    public function filtrarCategoria()
+    {
+        $service = new HomeControllerService();
+        $categoria = $_GET['categoria'] ?? null;
+        
+        if ($categoria) {
+            $posts = $service->getPostsByCategory($categoria);
+        } else {
+            $posts = $service->getPosts();
+        }
+        
+        $categorias = $service->getCategories();
+        session_start();
+        if (isset($_SESSION['usuario'])) {
+            $usuario = $_SESSION['usuario'];
+            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts, "categorias" => $categorias, "teste" => 1]);
+        }
+        //session_destroy();
+        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "teste" => 2]);
     }
 }

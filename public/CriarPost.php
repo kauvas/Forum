@@ -222,11 +222,11 @@ $usuario = $_SESSION['usuario'] ?? null;
                             <label for="categoria"><i class="fas fa-layer-group"></i> Categoria</label>
                             <select id="categoria" name="categoria" required>
                                 <option value="">Selecione uma categoria...</option>
-                                <option value="tecnologia">Tecnologia</option>
-                                <option value="desenvolvimento">Desenvolvimento</option>
-                                <option value="design">Design</option>
-                                <option value="seguranca">Segurança</option>
-                                <option value="geral">Discussões Gerais</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Desenvolvimento">Desenvolvimento</option>
+                                <option value="Design">Design</option>
+                                <option value="Segurança">Segurança</option>
+                                <option value="Discussões Gerais">Discussões Gerais</option>
                             </select>
                         </div>
 
