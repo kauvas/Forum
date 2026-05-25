@@ -33,9 +33,6 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
                     <li><a href="#meus-posts" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
                     <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
-                    <?php if (isset($usuario)) {
-                    echo '<li><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></li>';
-                    } ?>
                 </ul>
 
                 <hr>
@@ -61,6 +58,10 @@ $usuario = $_SESSION['usuario'] ?? null;
             <div class="filters-section">
                 <h2>Tópicos Recentes</h2>
                 <div class="filters">
+                    <?php if (isset($usuario)) {
+                    //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
+                    echo '<a class="filter-btn" href="carregarCriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
+                    } ?>
                     <button class="filter-btn active">Mais Recentes</button>
                     <button class="filter-btn">Mais Comentados</button>
                     <button class="filter-btn">Trending</button>

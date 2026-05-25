@@ -19,7 +19,7 @@ if (!isset($parametro) || !is_array($parametro)) {
 <body>
     <span><?php //var_dump($_SESSION['usuario']) ?></span>
     <span><?php //var_dump(isset($_SESSION)) ?></span>
-    <span><?php var_dump($parametro) ?></span>
+    <span><?php //var_dump($parametro) ?></span>
     <!-- Main Container -->
     <div class="post-container">
         <!-- Post Principal -->
@@ -41,7 +41,7 @@ if (!isset($parametro) || !is_array($parametro)) {
             <!-- Post Body -->
             <div class="post-full-body">
                 <h1 class="post-full-title"><?php echo htmlspecialchars($parametro["post"][0]['titulo'] ?? 'Sem título'); ?></h1>
-                <p class="post-full-content"><?php echo htmlspecialchars($parametro["post"][0]['conteudo'] ?? 'Sem conteúdo'); ?></p>
+                <p class="post-full-content"><?php echo nl2br(htmlspecialchars($parametro["post"][0]['conteudo'] ?? 'Sem conteúdo')); ?></p>
             </div>
 
             <!-- Post Actions -->
@@ -114,7 +114,7 @@ if (!isset($parametro) || !is_array($parametro)) {
                                 </div>
                             </div>
                             <div class="comment-content">
-                                <p><?php echo htmlspecialchars($comentario['conteudo']); ?></p>
+                                <p><?php echo nl2br(htmlspecialchars($comentario['conteudo'])); ?></p>
                             </div>
                             <div class="comment-actions-small">
                                 <button class="btn-reply" type="button"><i class="fas fa-reply"></i> Responder</button>

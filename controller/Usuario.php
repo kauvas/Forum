@@ -51,7 +51,8 @@ class Usuario
         session_start();
         $service = new UsuarioService();
         $posts = $service->getPosts();
-        $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"], "posts" => $posts]);
+        $categorias = $service->getCategories();
+        $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"], "posts" => $posts, "categorias" => $categorias]);
     }
 
     public function redirectVisitante()

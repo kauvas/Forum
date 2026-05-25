@@ -18,7 +18,7 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
-    <?php var_dump($parametro) ?>
+    <?php //var_dump($parametro) ?>
 
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
@@ -108,8 +108,19 @@ $usuario = $_SESSION['usuario'] ?? null;
                                 </div>
                                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
-                            <h3 class="post-title"><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
-                            <p class="post-excerpt"><?php echo htmlspecialchars($post['conteudo'] ?? 'Sem conteúdo'); ?></p>
+                            <form action='post' method="post">
+                            <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>">
+                            <button class='btn-titulo' type="submit"> <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
+                            </form>
+                            <p class="post-excerpt"><?php 
+                                $conteudo = $post['conteudo'] ?? 'Sem conteúdo';
+                                $tam_string = 110;
+                                if (strlen($conteudo) > $tam_string) {
+                                    echo htmlspecialchars(substr($conteudo, 0, $tam_string)) . '...';
+                                } else {
+                                    echo htmlspecialchars($conteudo);
+                                }
+                            ?><br></p>
                             <div class="post-footer">
                                 <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($post['num_comentarios'] ?? '0'); ?> comentários</span>
                                 <span class="post-stats"><i class="fas fa-eye"></i> <?php echo htmlspecialchars($post['visualizacoes'] ?? '0'); ?> visualizações</span>
