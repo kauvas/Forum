@@ -25,13 +25,16 @@ $usuario = $_SESSION['usuario'] ?? null;
 
             <nav class="sidebar-nav">
                 <h3><i class="fas fa-home"></i> Menu</h3>
+                <?php if (isset($usuario)) {
+                    //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
+                    echo '<a class="btn-novo-topico" href="carregarCriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
+                    } ?>
 
                 <ul class="nav-list">
                     <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#categorias" class="nav-link"><i class="fas fa-list"></i> Categorias</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
-                    <li><a href="#meus-posts" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
+                    <li><a href='perfil' class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
                     <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
                 </ul>
 
@@ -48,26 +51,12 @@ $usuario = $_SESSION['usuario'] ?? null;
 
                 <hr>
 
-                <button class="btn-novo-topico"><i class="fas fa-plus"></i> Novo Tópico</button>
+                
             </nav>
         </aside>
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="content">
-            <!-- Seção de Filtros -->
-            <div class="filters-section">
-                <h2>Tópicos Recentes</h2>
-                <div class="filters">
-                    <?php if (isset($usuario)) {
-                    //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
-                    echo '<a class="filter-btn" href="carregarCriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
-                    } ?>
-                    <button class="filter-btn active">Mais Recentes</button>
-                    <button class="filter-btn">Mais Comentados</button>
-                    <button class="filter-btn">Trending</button>
-                </div>
-            </div>
-
 
             <!-- Posts -->
             <div class="posts-container">
@@ -94,7 +83,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                             </form>
                             <p class="post-excerpt"><?php 
                                 $conteudo = $post['conteudo'] ?? 'Sem conteúdo';
-                                $tam_string = 180;
+                                $tam_string = 110;
                                 if (strlen($conteudo) > $tam_string) {
                                     echo htmlspecialchars(substr($conteudo, 0, $tam_string)) . '...';
                                 } else {

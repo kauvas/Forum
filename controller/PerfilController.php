@@ -19,6 +19,7 @@ class PerfilController
         $service = new PerfilControllerService();
         session_start();
         $posts = $service-> getPostsID($_SESSION['id_usuario']);
-        $this->template->layout("Perfil.php", ["posts" => $posts]);
+        $comentarios = $service-> getComentarios($_SESSION['id_usuario']);
+        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios]);
     }
 }

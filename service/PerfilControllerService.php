@@ -10,4 +10,9 @@ class PerfilControllerService extends PerfilControllerDAO
     {
         return parent::getPostsID($usuario_id);
     }
+
+    public function getComentarios($usuario_id)
+    {
+        return parent::getComentarios($usuario_id);
+    }
 }

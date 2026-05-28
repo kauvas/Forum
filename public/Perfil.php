@@ -27,12 +27,16 @@ $usuario = $_SESSION['usuario'] ?? null;
             <nav class="sidebar-nav">
                 <h3><i class="fas fa-home"></i> Menu</h3>
 
+                <?php if (isset($usuario)) {
+                    //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
+                    echo '<a class="btn-novo-topico" href="carregarCriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
+                    } ?>
+
                 <ul class="nav-list">
-                    <li><a href="home" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#categorias" class="nav-link"><i class="fas fa-list"></i> Categorias</a></li>
+                    <li><a href='redirect' class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
-                    <li><a href="#meus-posts" class="nav-link active"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                    <li><a href="#meus-posts" class="nav-link active"><i class="fas fa-user"></i> Meus Posts</a></li>
                     <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
                 </ul>
             </nav>
@@ -130,6 +134,46 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p style="text-align: center; padding: 20px;">Nenhum post ainda. Comece a compartilhar!</p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Aba de Comentários -->
+            <div id="comentariosTab" class="tab-pane">
+                <!-- Comentários do Usuário - Dinâmicos -->
+                <?php if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])): ?>
+                    <?php foreach ($parametro['comentarios'] as $comentario): 
+                          foreach($parametro['posts'] as $post):?>
+                        
+                        <article class="comment-item" style="border-left: 4px solid #3b4fc9; padding: 15px; margin-bottom: 15px; background-color: #f6f7fb; border-radius: 4px;">
+                            <div class="comment-header">
+                                <div class="user-info">
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($usuario)); ?>&background=random" alt="Usuário" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 10px;">
+                                    <div class="user-details">
+                                        <h4>u/<?php echo htmlspecialchars($usuario); ?></h4>
+                                        <span class="post-date"><?php echo htmlspecialchars($comentario['data_criacao'] ?? 'agora'); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="comment-text" style="margin: 10px 0; line-height: 1.5;">
+                                <?php echo htmlspecialchars($comentario['conteudo'] ?? 'Sem conteúdo'); ?>
+                            </p>
+                            <div class="comment-footer" style="font-size: 0.9em; color: #555;">
+                                <strong>Comentado em: </strong>
+                                <span style="color: #3b4fc9;">
+                                    <?php 
+                                        $post_id = $comentario['post_id'] ?? null;
+                                        if ($post_id) {
+                                            echo htmlspecialchars($post['titulo'] ?? 'Sem título');
+                                        } else {
+                                            echo "Post removido";
+                                        }
+                                    ?>
+                                </span>
+                            </div>
+                        </article>
+                    <?php endforeach; endforeach; ?>
+                <?php else: ?>
+                    <p style="text-align: center; padding: 20px;">Nenhum comentário realizado ainda.</p>
                 <?php endif; ?>
             </div>
         </main>

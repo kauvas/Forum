@@ -11,7 +11,7 @@ class PerfilControllerTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <a href='redirect'> <i class='fas fa-comments'></i> </a>
+                    <a class='logo' href='redirect' style='text-decoration: none'> <i class='fas fa-comments'></i> </a>
                     <span>MY FORUM</span>
                 </div>
 
