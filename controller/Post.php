@@ -67,4 +67,55 @@ class Post
         $comentarios = $service->getComentarios($post_id);
         $this->template->layout("Post.php", ["post" => $post, "id" => $post_id, "comentarios" => $comentarios]);
     }
+
+    public function postI()
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $service = new PostService();
+        $id = $_GET['id'];
+        $post = $service->getPost($id);
+        $comentarios = $service->getComentarios($id);
+        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios]);
+    }
+
+    public function upvote()
+    {
+        session_start();
+        $usuario_id = $_POST['usuario_id'];
+        $service = new PostService();
+        $post_id = $_POST['post_id'];
+        $tipo = 1;
+        $post = $service->getPost($post_id);
+        $comentarios = $service->getComentarios($post_id);
+        $service->upvote($post_id, $usuario_id, $tipo);
+        header("Location: postI?id=$post_id");
+    }
+
+    public function downvote()
+    {
+        session_start();
+        $usuario_id = $_POST['usuario_id'];
+        $service = new PostService();
+        $post_id = $_POST['post_id'];
+        $tipo = 2;
+        $post = $service->getPost($post_id);
+        $comentarios = $service->getComentarios($post_id);
+        $service->downvote($post_id, $usuario_id, $tipo);
+        header("Location: postI?id=$post_id");
+    }
+
+    public function salvar()
+    {
+        session_start();
+        $usuario_id = $_POST['usuario_id'];
+        $service = new PostService();
+        $post_id = $_POST['post_id'];
+        $tipo = 3;
+        $post = $service->getPost($post_id);
+        $comentarios = $service->getComentarios($post_id);
+        $service->salvar($post_id, $usuario_id, $tipo);
+        header("Location: postI?id=$post_id");
+    }
 }

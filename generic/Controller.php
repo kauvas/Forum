@@ -21,6 +21,10 @@ class Controller
             "carregarCriarPost" => new Acao("Post", "carregarCriarPost"),
             "salvarPost" => new Acao("Post", "criarPost"),
             "criarComentario" => new Acao("Post", "criarComentario"),
+            "upvote" => new Acao("Post", "upvote"),
+            "downvote" => new Acao("Post", "downvote"),
+            "salvar" => new Acao("Post", "salvar"),
+            "postI" => new Acao("post", "PostI"),
         ];
     }
 

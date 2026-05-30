@@ -63,4 +63,40 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function upvote($post_id, $usuario_id, $tipo)
+    {
+        $sql = "insert into interacoes (post_id, usuario_id, tipo) values (:post_id, :usuario_id, :tipo)";
+        $param = [
+            ":post_id" => $post_id,
+            ":usuario_id" => $usuario_id,
+            ":tipo" => $tipo
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function downvote($post_id, $usuario_id, $tipo)
+    {
+        $sql = "insert into interacoes (post_id, usuario_id, tipo) values (:post_id, :usuario_id, :tipo)";
+        $param = [
+            ":post_id" => $post_id,
+            ":usuario_id" => $usuario_id,
+            ":tipo" => $tipo
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function salvar($post_id, $usuario_id, $tipo)
+    {
+        $sql = "insert into interacoes (post_id, usuario_id, tipo) values (:post_id, :usuario_id, :tipo)";
+        $param = [
+            ":post_id" => $post_id,
+            ":usuario_id" => $usuario_id,
+            ":tipo" => $tipo
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
 }

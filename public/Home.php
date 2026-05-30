@@ -96,7 +96,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                             ?><br></p>
                             <div class="post-footer">
                                 <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($parametro['comentarios_por_post'][$post['post_id']] ?? '0'); ?> comentários</span>
-                                <button class="btn-like"><i class="far fa-heart"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?></button>
+                                <span class="post-stats"><i class="fas fa-star"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?> | <i class="fas fa-times"></i></span>
                             </div>
                         </article>
                     <?php endforeach; ?>

@@ -17,7 +17,7 @@ if (!isset($parametro) || !is_array($parametro)) {
     <link rel="stylesheet" href="style/post.css">
 </head>
 <body>
-    <span><?php //var_dump($_SESSION['usuario']) ?></span>
+    <span><?php var_dump($_SESSION['id_usuario']) ?></span>
     <span><?php //var_dump(isset($_SESSION)) ?></span>
     <span><?php //var_dump($parametro) ?></span>
     <!-- Main Container -->
@@ -46,26 +46,27 @@ if (!isset($parametro) || !is_array($parametro)) {
 
             <!-- Post Actions -->
             <div class="post-actions">
-                <button class="action-btn">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>Upvote</span>
-                </button>
-                <button class="action-btn">
-                    <i class="fas fa-arrow-down"></i>
-                    <span>Downvote</span>
-                </button>
-                <button class="action-btn">
-                    <i class="fas fa-reply"></i>
-                    <span>Comentar</span>
-                </button>
-                <button class="action-btn">
-                    <i class="fas fa-share"></i>
-                    <span>Compartilhar</span>
-                </button>
-                <button class="action-btn">
-                    <i class="fas fa-bookmark"></i>
-                    <span>Salvar</span>
-                </button>
+                <form method="POST" action="upvote">
+                    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
+                    <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_SESSION['id_usuario'] ?? ''); ?>">
+                    <button class="action-btn" type="submit">
+                        <i class="fas fa-star"></i>
+                        <span>Upvote</span>
+                </form>
+                <form method="POST" action="downvote">
+                    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
+                    <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_SESSION['id_usuario'] ?? ''); ?>">
+                    <button class="action-btn" type="submit">
+                        <i class="fas fa-times"></i>
+                        <span>Downvote</span>
+                </form>
+                <form method="POST" action="salvar">
+                    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
+                    <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_SESSION['id_usuario'] ?? ''); ?>">
+                    <button class="action-btn" type="submit">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Downvote</span>
+                </form>
             </div>
         </div>
 
