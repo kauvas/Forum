@@ -34,8 +34,12 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
-                    <li><a href='perfil' class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
-                    <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
+                    <?php if (isset($usuario)) {
+                    echo '<li><a href="perfil" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>';
+                    } ?>
+                    <?php if (isset($usuario)) {
+                    echo '<li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>';
+                    } ?>
                 </ul>
 
                 <hr>
@@ -91,22 +95,12 @@ $usuario = $_SESSION['usuario'] ?? null;
                                 }
                             ?><br></p>
                             <div class="post-footer">
-                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($post['num_comentarios'] ?? '0'); ?> comentários</span>
-                                <span class="post-stats"><i class="fas fa-eye"></i> <?php echo htmlspecialchars($post['visualizacoes'] ?? '0'); ?> visualizações</span>
+                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($parametro['comentarios_por_post'][$post['post_id']] ?? '0'); ?> comentários</span>
                                 <button class="btn-like"><i class="far fa-heart"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?></button>
                             </div>
                         </article>
                     <?php endforeach; ?>
                 <?php endif; ?>
-
-            <!-- Paginação -->
-            <div class="pagination">
-                <button class="page-btn"><i class="fas fa-chevron-left"></i> Anterior</button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">Próxima <i class="fas fa-chevron-right"></i></button>
-            </div>
         </main>
 
         <div id="entrarModal" class="modal">

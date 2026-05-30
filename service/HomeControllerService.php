@@ -22,4 +22,8 @@ class HomeControllerService extends HomeControllerDAO
     {
         return parent::getPostsByCategory($categoria);
     }
+    public function getCountComentarios($post_id)
+    {
+        return parent::getCountComentarios($post_id);
+    }
 }

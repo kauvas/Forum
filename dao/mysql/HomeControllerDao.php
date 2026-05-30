@@ -40,4 +40,14 @@ class HomeControllerDAO extends MysqlFactory /*implements IHomeControllerDAO*/
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function getCountComentarios($post_id)
+    {
+        $sql = "SELECT COUNT(*) as total_comentarios FROM comentarios WHERE post_id = :post_id";
+        $param = [
+            ":post_id" => $post_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
 }

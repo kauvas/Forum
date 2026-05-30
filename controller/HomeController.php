@@ -22,7 +22,14 @@ class HomeController
         session_destroy();
         $posts = $service->getPosts();
         $categorias = $service->getCategories();
-        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias]);
+        
+        $comentarios_por_post = [];
+        foreach ($posts as $post) {
+            $resultado = $service->getCountComentarios($post['post_id']);
+            $comentarios_por_post[$post['post_id']] = $resultado[0]['total_comentarios'] ?? 0;
+        }
+        
+        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post]);
     }
 
     public function filtrarCategoria()
@@ -37,12 +44,20 @@ class HomeController
         }
         
         $categorias = $service->getCategories();
+        
+        // Obter contagem de comentários para cada post
+        $comentarios_por_post = [];
+        foreach ($posts as $post) {
+            $resultado = $service->getCountComentarios($post['post_id']);
+            $comentarios_por_post[$post['post_id']] = $resultado[0]['total_comentarios'] ?? 0;
+        }
+        
         session_start();
         if (isset($_SESSION['usuario'])) {
             $usuario = $_SESSION['usuario'];
-            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts, "categorias" => $categorias, "teste" => 1]);
+            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post, "teste" => 1]);
         }
         //session_destroy();
-        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "teste" => 2]);
+        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post, "teste" => 2]);
     }
 }
