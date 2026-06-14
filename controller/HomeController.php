@@ -18,8 +18,12 @@ class HomeController
     {
         $service = new HomeControllerService();
         session_start();
+        ini_set('display_errors', '0');
+        if (!$_SESSION['logado']) {
         $_SESSION = [];
         session_destroy();
+        }
+        ini_set('display_errors', '1');
         $posts = $service->getPosts();
         $categorias = $service->getCategories();
         
@@ -29,35 +33,22 @@ class HomeController
             $comentarios_por_post[$post['post_id']] = $resultado[0]['total_comentarios'] ?? 0;
         }
         
-        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post]);
+        ini_set('display_errors', '0');
+        if ($_GET['categoria']){
+            $categoria = $_GET['categoria'];
+            $posts = $service->getPostsByCategory($categoria);
+            $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post]);
+        } else {
+            ini_set('display_errors', '1');
+            $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post]);
+        }
     }
 
-    public function filtrarCategoria()
+    public function Limpa()
     {
-        $service = new HomeControllerService();
-        $categoria = $_GET['categoria'] ?? null;
-        
-        if ($categoria) {
-            $posts = $service->getPostsByCategory($categoria);
-        } else {
-            $posts = $service->getPosts();
-        }
-        
-        $categorias = $service->getCategories();
-        
-        // Obter contagem de comentários para cada post
-        $comentarios_por_post = [];
-        foreach ($posts as $post) {
-            $resultado = $service->getCountComentarios($post['post_id']);
-            $comentarios_por_post[$post['post_id']] = $resultado[0]['total_comentarios'] ?? 0;
-        }
-        
         session_start();
-        if (isset($_SESSION['usuario'])) {
-            $usuario = $_SESSION['usuario'];
-            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post]);
-        }
-        //session_destroy();
-        $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post]);
+        $_SESSION = [];
+        session_destroy();
+        header("Location: home");
     }
 }

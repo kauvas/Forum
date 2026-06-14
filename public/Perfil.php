@@ -19,7 +19,7 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
 </head>
 
 <body>
-    <?php //var_dump($parametro["dados_credenciais"][0]) ?>
+    <?php //var_dump($parametro["comentarios_por_post"]) ?>
 
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
@@ -34,7 +34,7 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
                     } ?>
 
                 <ul class="nav-list">
-                    <li><a href='redirect' class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href='home' class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
                     <li><a href="#meus-posts" class="nav-link active"><i class="fas fa-user"></i> Meus Posts</a></li>
@@ -69,17 +69,13 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Posts</span>
-                                <span class="stat-value">24</span>
+                                <span class="stat-value"><?php echo $parametro['posts_por_usuario']?></span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Comentários</span>
-                                <span class="stat-value">156</span>
+                                <span class="stat-value"><?php echo $parametro['comentarios_por_usuario']?></span>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Membro desde</span>
-                                <span class="stat-value">há 6 meses</span>
-                            </div>
-                        </div>
+                        </div>  
 
                         <p class="profile-bio"><?php echo htmlspecialchars($parametro["dados_usuario"][0]["biografia"]); ?></p>
 
@@ -147,12 +143,7 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
                                 } else {
                                     echo htmlspecialchars($conteudo);
                                 }
-                            ?><br></p>
-                            <div class="post-footer">
-                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($post['num_comentarios'] ?? '0'); ?> comentários</span>
-                                <span class="post-stats"><i class="fas fa-eye"></i> <?php echo htmlspecialchars($post['visualizacoes'] ?? '0'); ?> visualizações</span>
-                                <button class="btn-like"><i class="far fa-heart"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?></button>
-                            </div>
+                            ?><br>
                         </article>
                     <?php endforeach; ?>
                 <?php else: ?>

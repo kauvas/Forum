@@ -7,12 +7,12 @@ class PerfilControllerTemp implements Itemplate
         public function cabecalho()
     {
         //session_start();
-        if (isset($_SESSION['usuario'])) {
+        if ($_SESSION['logado']) {
             echo "<header class='header'>
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <a class='logo' href='redirect' style='text-decoration: none'> <i class='fas fa-comments'></i> </a>
+                    <a href='home'><i class='fas fa-comments'></i></a>
                     <span>MY FORUM</span>
                 </div>
 
@@ -36,7 +36,7 @@ class PerfilControllerTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <a class='logo' href='redirect' style='text-decoration: none'> <i class='fas fa-comments'></i> </a>
+                    <a href='home'><i class='fas fa-comments'></i></a>
                     <span>MY FORUM</span>
                 </div>
 

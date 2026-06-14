@@ -31,9 +31,9 @@ if (!isset($parametro) || !is_array($parametro)) {
             <!-- Post Header -->
             <div class="post-full-header">
                 <div class="post-full-user">
-                    <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($parametro["post"][0]['nome_usuario'] ?? 'Anônimo') ?>&background=random" alt="Autor">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($parametro["post"]['nome_usuario'] ?? 'Anônimo') ?>&background=random" alt="Autor">
                     <div class="post-full-user-info">
-                        <h4><?php echo htmlspecialchars($parametro["post"][0]['nome_usuario'] ?? 'N/A'); ?></h4>
+                        <h4><?php echo htmlspecialchars($parametro["post"]['nome_usuario'] ?? 'N/A'); ?></h4>
                         <span>em r/DesenvolvimentoWeb • 2 dias atrás</span>
                     </div>
                 </div>
@@ -44,8 +44,8 @@ if (!isset($parametro) || !is_array($parametro)) {
 
             <!-- Post Body -->
             <div class="post-full-body">
-                <h1 class="post-full-title"><?php echo htmlspecialchars($parametro["post"][0]['titulo'] ?? 'Sem título'); ?></h1>
-                <p class="post-full-content"><?php echo nl2br(htmlspecialchars($parametro["post"][0]['conteudo'] ?? 'Sem conteúdo')); ?></p>
+                <h1 class="post-full-title"><?php echo htmlspecialchars($parametro["post"]['titulo'] ?? 'Sem título'); ?></h1>
+                <p class="post-full-content"><?php echo nl2br(htmlspecialchars($parametro["post"]['conteudo'] ?? 'Sem conteúdo')); ?></p>
             </div>
 
             <!-- Post Actions -->
@@ -69,7 +69,7 @@ if (!isset($parametro) || !is_array($parametro)) {
                     <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_SESSION['id_usuario'] ?? ''); ?>">
                     <button class="action-btn" type="submit">
                         <i class="fas fa-bookmark"></i>
-                        <span>Downvote</span>
+                        <span>Salvar</span>
                 </form>
             </div>
         </div>
@@ -78,7 +78,7 @@ if (!isset($parametro) || !is_array($parametro)) {
         <div class="comments-section">
             <h2 class="comments-header">
                 <i class="fas fa-comments"></i>
-                Comentários (<span id="comentariosCount">0</span>)
+                Comentários (<span id="comentariosCount"><?php echo $parametro['cont_comentarios'] ?></span>)
             </h2>
 
             <!-- Comment Form - Apenas para usuários logados -->

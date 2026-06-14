@@ -20,25 +20,24 @@ class Post
             session_start();
         }
         $service = new PostService();
-        $id = $_POST['post_id'];
+        $id = $_GET['id'];
         $post = $service->getPost($id);
         $comentarios = $service->getComentarios($id);
         $id_usuario_comentarios = $service->getIDUsuarioComentarios($id);
+
         $credenciais = [];
         foreach ($id_usuario_comentarios as $usuario) {
             $credenciais_usuario = $service->getCredenciaisPorUsuario($usuario['usuario_id']);
             $credenciais[$usuario['usuario_id']] = $credenciais_usuario;
         }
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios, "credenciais" => $credenciais, "teste" => $id_usuario_comentarios]);
-    }
 
-    public function postVisitante()
-    {
-        $service = new PostService();
-        $id = $_POST['post_id'];
-        $post = $service->getPost($id);
-        $comentarios = $service->getComentarios($id);
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios]);
+        $comentarios_por_post = [];
+        foreach ($post as $post) {
+            $resultado = $service->getCountComentarios($post['post_id']);
+            $comentarios_por_post = $resultado[0]['total_comentarios'] ?? 0;
+        }
+
+        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios, "credenciais" => $credenciais, "cont_comentarios" => $comentarios_por_post]);
     }
 
     public function carregarCriarPost()
@@ -58,7 +57,7 @@ class Post
         $tags = $_POST['tags'];
         $conteudo = $_POST['conteudo'];
         $service->criarPost($usuario_id, $titulo, $categoria, $tags, $conteudo);
-        header("Location: redirect");
+        header("Location: home");
     }
 
     public function criarComentario()
@@ -69,21 +68,7 @@ class Post
         $post_id = $_POST['post_id'];
         $conteudo = $_POST['conteudo'];
         $service->criarComentario($post_id, $usuario_id, $conteudo);
-        $post = $service->getPost($post_id);
-        $comentarios = $service->getComentarios($post_id);
-        $this->template->layout("Post.php", ["post" => $post, "id" => $post_id, "comentarios" => $comentarios]);
-    }
-
-    public function postI()
-    {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        $service = new PostService();
-        $id = $_GET['id'];
-        $post = $service->getPost($id);
-        $comentarios = $service->getComentarios($id);
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios]);
+        header("Location: post?id=$post_id");
     }
 
     public function upvote()
@@ -96,7 +81,7 @@ class Post
         $post = $service->getPost($post_id);
         $comentarios = $service->getComentarios($post_id);
         $service->upvote($post_id, $usuario_id, $tipo);
-        header("Location: postI?id=$post_id");
+        header("Location: post?id=$post_id");
     }
 
     public function downvote()
@@ -109,7 +94,7 @@ class Post
         $post = $service->getPost($post_id);
         $comentarios = $service->getComentarios($post_id);
         $service->downvote($post_id, $usuario_id, $tipo);
-        header("Location: postI?id=$post_id");
+        header("Location: post?id=$post_id");
     }
 
     public function salvar()
@@ -122,6 +107,6 @@ class Post
         $post = $service->getPost($post_id);
         $comentarios = $service->getComentarios($post_id);
         $service->salvar($post_id, $usuario_id, $tipo);
-        header("Location: postI?id=$post_id");
+        header("Location: post?id=$post_id");
     }
 }

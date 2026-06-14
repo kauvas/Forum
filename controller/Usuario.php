@@ -22,6 +22,9 @@ class Usuario
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $service->registrar($nome, $usuario, $email, $senha);
+        $_SESSION["usuario"] = $usuario[0]['usuario'];
+        $_SESSION["id_usuario"] = $usuario[0]['id'];
+        $_SESSION["logado"] = true;
         header("Location: home");
     }
 
@@ -38,29 +41,12 @@ class Usuario
             //Login bem-sucedido
             $_SESSION["usuario"] = $usuario[0]['usuario'];
             $_SESSION["id_usuario"] = $usuario[0]['id'];
+            $_SESSION["logado"] = true;
 
-            $this->template->layout("Home.php", ["usuario" => $usuario, "posts" => $posts, "categorias" => $categorias]);
+            header("Location: home");
         } else {
             session_destroy();
             header("Location: home#erro");
         }
-    }
-
-    public function redirect()
-    {
-        session_start();
-        $service = new UsuarioService();
-        $posts = $service->getPosts();
-        $categorias = $service->getCategories();
-        $this->template->layout("Home.php", ["usuario" => $_SESSION["usuario"], "posts" => $posts, "categorias" => $categorias]);
-    }
-
-    public function redirectVisitante()
-    {
-        if (isset($_SESSION)) {
-            $_SESSION = [];
-            session_destroy();
-        }
-        header("Location:home");
     }
 }

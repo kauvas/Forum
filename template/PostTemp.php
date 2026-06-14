@@ -11,7 +11,7 @@ class postTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <a "; if (isset($_SESSION)) echo "href='redirect'"; else echo "href='redirectVisitante'"; echo "><i class='fas fa-comments'></i> </a>
+                    <a href='home'><i class='fas fa-comments'></i></a>
                     <span>MY FORUM</span>
                 </div>
 

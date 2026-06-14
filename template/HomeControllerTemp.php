@@ -7,7 +7,7 @@ class HomeControllerTemp implements Itemplate
     public function cabecalho()
     {
         //session_start();
-        if (isset($_SESSION['usuario'])) {
+        if ($_SESSION['logado']) {
             echo "<header class='header'>
             <div class='header-container'>
                 <!-- Logo -->

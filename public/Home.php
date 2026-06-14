@@ -17,7 +17,7 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
-<?php //var_dump($parametro['teste']); var_dump($usuario)  ?>
+<?php //var_dump($parametro['teste']); //var_dump($usuario)  ?>
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
         <!-- SIDEBAR -->
@@ -31,7 +31,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                     } ?>
 
                 <ul class="nav-list">
-                    <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
                     <?php if (isset($usuario)) {
@@ -48,14 +48,10 @@ $usuario = $_SESSION['usuario'] ?? null;
                 <ul class="categories-list">
                     <?php if (!empty($parametro['categorias']) && is_array($parametro['categorias'])): ?>
                         <?php foreach ($parametro['categorias'] as $categoria): ?>
-                            <li><a href="filtrarCategoria?categoria=<?php echo $categoria['categoria']?>" class="category-link"><span class="badge"><?php echo htmlspecialchars($categoria['total_posts'] ?? '0'); ?></span> <?php echo htmlspecialchars($categoria['categoria'] ?? 'Sem nome'); ?></a></li>
+                            <li><a href="home?categoria=<?php echo $categoria['categoria']?>" class="category-link"><span class="badge"><?php echo htmlspecialchars($categoria['total_posts'] ?? '0'); ?></span> <?php echo htmlspecialchars($categoria['categoria'] ?? 'Sem nome'); ?></a></li>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </ul>
-
-                <hr>
-
-                
             </nav>
         </aside>
 
@@ -81,10 +77,19 @@ $usuario = $_SESSION['usuario'] ?? null;
                                 </div>
                                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
+                            <!--
                             <form action="<?php if (isset($_SESSION['usuario'])) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
                             <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>">
                             <button class='btn-titulo' type="submit"> <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
                             </form>
+                            -->
+                            
+                            <a href="post?id=<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>" style="text-decoration: none">
+                                <button class="btn-titulo">
+                                <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
+                                </button>
+                            </a>
+                            
                             <p class="post-excerpt"><?php 
                                 $conteudo = $post['conteudo'] ?? 'Sem conteúdo';
                                 $tam_string = 110;

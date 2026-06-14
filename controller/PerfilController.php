@@ -23,7 +23,16 @@ class PerfilController
         $comentarios = $service-> getComentarios($id);
         $dados_usuario = $service-> getUsuarioDados($id);
         $dados_credenciais = $service-> getCredenciais($id);
-        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios, "dados_usuario" => $dados_usuario, "dados_credenciais" => $dados_credenciais]);
+
+        $comentarios_por_usuario = [];
+        $countCom = $service->getCountComentarios($id);
+        $comentarios_por_usuario  = $countCom[0]['total_comentarios'] ?? 0;
+
+        $posts_por_usuario = [];
+        $countPosts = $service->getCountPosts($id);
+        $posts_por_usuario  = $countPosts[0]['total_posts'] ?? 0;
+
+        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios, "dados_usuario" => $dados_usuario, "dados_credenciais" => $dados_credenciais, "comentarios_por_usuario" => $comentarios_por_usuario, "posts_por_usuario" => $posts_por_usuario]);
     }
 
     public function editarBiografia()

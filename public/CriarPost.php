@@ -170,27 +170,11 @@ $usuario = $_SESSION['usuario'] ?? null;
 
                 <ul class="nav-list">
                     <li><a href="home" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#categorias" class="nav-link"><i class="fas fa-list"></i> Categorias</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
-                    <li><a href="#meus-posts" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
+                    <li><a href="perfil?id=<?php echo $_SESSION['id_usuario']?>" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
                     <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
                 </ul>
-
-                <hr>
-
-                <h3><i class="fas fa-layer-group"></i> Categorias</h3>
-                <ul class="categories-list">
-                    <li><a href="#" class="category-link"><span class="badge">12</span> Tecnologia</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">8</span> Desenvolvimento</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">15</span> Design</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">5</span> Segurança</a></li>
-                    <li><a href="#" class="category-link"><span class="badge">20</span> Discussões Gerais</a></li>
-                </ul>
-
-                <hr>
-
-                <button class="btn-novo-topico" onclick="window.location.href='criarPost'"><i class="fas fa-plus"></i> Novo Tópico</button>
             </nav>
         </aside>
 

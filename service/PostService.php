@@ -45,4 +45,9 @@ class PostService extends PostDAO
     {
         return parent::salvar($post_id, $usuario_id, $tipo);
     }
+
+    public function getCountComentarios($post_id)
+    {
+        return parent::getCountComentarios($post_id);
+    }
 }

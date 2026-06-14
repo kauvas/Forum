@@ -80,4 +80,24 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function getCountComentarios($usuario_id)
+    {
+        $sql = "SELECT COUNT(*) as total_comentarios FROM comentarios WHERE usuario_id = :usuario_id";
+        $param = [
+            ":usuario_id" => $usuario_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getCountPosts($usuario_id)
+    {
+        $sql = "SELECT COUNT(*) as total_posts FROM posts WHERE usuario_id = :usuario_id";
+        $param = [
+            ":usuario_id" => $usuario_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
 }

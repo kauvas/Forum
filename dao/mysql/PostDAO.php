@@ -54,6 +54,16 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
         return $retorno;
     }
 
+        public function getCountComentarios($post_id)
+    {
+        $sql = "SELECT COUNT(*) as total_comentarios FROM comentarios WHERE post_id = :post_id";
+        $param = [
+            ":post_id" => $post_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
     public function getComentarios($post_id)
     {
         $sql = "select c.*, u.nome as nome_usuario, u.id as usuario_id from comentarios c left join usuarios u on c.usuario_id = u.id where c.post_id = :post_id";
