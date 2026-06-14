@@ -23,7 +23,13 @@ class Post
         $id = $_POST['post_id'];
         $post = $service->getPost($id);
         $comentarios = $service->getComentarios($id);
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios]);
+        $id_usuario_comentarios = $service->getIDUsuarioComentarios($id);
+        $credenciais = [];
+        foreach ($id_usuario_comentarios as $usuario) {
+            $credenciais_usuario = $service->getCredenciaisPorUsuario($usuario['usuario_id']);
+            $credenciais[$usuario['usuario_id']] = $credenciais_usuario;
+        }
+        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios, "credenciais" => $credenciais, "teste" => $id_usuario_comentarios]);
     }
 
     public function postVisitante()

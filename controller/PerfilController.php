@@ -18,8 +18,42 @@ class PerfilController
     {
         $service = new PerfilControllerService();
         session_start();
-        $posts = $service-> getPostsID($_SESSION['id_usuario']);
-        $comentarios = $service-> getComentarios($_SESSION['id_usuario']);
-        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios]);
+        $id = $_GET['id'];
+        $posts = $service-> getPostsID($id);
+        $comentarios = $service-> getComentarios($id);
+        $dados_usuario = $service-> getUsuarioDados($id);
+        $dados_credenciais = $service-> getCredenciais($id);
+        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios, "dados_usuario" => $dados_usuario, "dados_credenciais" => $dados_credenciais]);
+    }
+
+    public function editarBiografia()
+    {
+        $service = new PerfilControllerService();
+        session_start();
+        $id = $_SESSION['id_usuario'];
+        $biografia = $_POST['biographyEdit'];
+        $service->editarBiografia($id, $biografia);
+        header("Location: perfil?id=$id");
+    }
+
+    public function adicionarCredencial()
+    {
+        $service = new PerfilControllerService();
+        session_start();
+        $id = $_SESSION['id_usuario'];
+        $nome = $_POST['credentialName'];
+        $descricao = $_POST['credentialDesc'];
+        $service->adicionarCredencial($id, $nome, $descricao);
+        header("Location: perfil?id=$id");
+    }
+
+    public function removerCredencial()
+    {
+        $service = new PerfilControllerService();
+        session_start();
+        $id_credencial = $_POST['id_credencial'];
+        $id_usuario = $_POST['id_usuario'];
+        $service->removerCredencial($id_usuario, $id_credencial);
+        header("Location: perfil?id=$id_usuario");
     }
 }

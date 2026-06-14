@@ -17,9 +17,13 @@ if (!isset($parametro) || !is_array($parametro)) {
     <link rel="stylesheet" href="style/post.css">
 </head>
 <body>
-    <span><?php var_dump($_SESSION['id_usuario']) ?></span>
+    <span><?php //var_dump($_SESSION['id_usuario']) ?></span>
     <span><?php //var_dump(isset($_SESSION)) ?></span>
-    <span><?php //var_dump($parametro) ?></span>
+    <span><?php                                   //id_usuario / qual credencial / dados
+                //var_dump($parametro['credenciais'][1][0])
+                //var_dump($parametro['credenciais'][1])
+                //var_dump($parametro['comentarios'][3]);
+                ?></span>
     <!-- Main Container -->
     <div class="post-container">
         <!-- Post Principal -->
@@ -102,24 +106,44 @@ if (!isset($parametro) || !is_array($parametro)) {
 
             <!-- Comments List -->
             <div class="comments-list" id="comentariosList">
-                <?php if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])): ?>
-                    <?php foreach ($parametro['comentarios'] as $comentario): ?>
+                <?php 
+                if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])):
+                    // Importar service para carregar credenciais
+                    $credenciaisCache = [];
+                ?>
+                    <?php foreach ($parametro['comentarios'] as $comentario): 
+                        $usuario_id = $comentario['usuario_id'] ?? null;
+                    ?>
                         <article class="comment-item">
                             <div class="comment-header">
-                                <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo'); ?>&background=random" 
-                                     alt="<?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Usuário'); ?>" 
-                                     class="comment-avatar">
-                                <div class="comment-info">
-                                    <strong class="comment-author"><?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo'); ?></strong>
-                                    <span class="comment-date"><?php echo htmlspecialchars($comentario['data_criacao'] ?? 'Agora'); ?></span>
+                                <div class="comment-user-info">
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo'); ?>&background=random" 
+                                         alt="<?php echo htmlspecialchars($comentario['nome_usuario'] ?? 'Usuário'); ?>" 
+                                         class="comment-avatar">
+                                    <div class="comment-user-details">
+                                        <div class="comment-author-row">
+                                            <strong class="comment-author"><?php echo '<a style="text-decoration: none" href=perfil?id=' . htmlspecialchars($usuario_id) . '>' . htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo') . '</a>'; ?></strong>
+                                            <?php //if (!empty($credenciais) && is_array($credenciais)): ?>
+                                                <div class="comment-credentials">
+                            
+                                                    <?php foreach (($parametro['credenciais'][$usuario_id] ?? []) as $credencial):
+                                                        $nome = htmlspecialchars($credencial['nome'] ?? '');
+                                                        $desc = htmlspecialchars($credencial['descricao'] ?? '');
+                                                        $nomeEscaped = str_replace("'", "\\'", str_replace("\\", "\\\\", $nome));
+                                                        $descEscaped = str_replace("'", "\\'", str_replace("\\", "\\\\", $desc));
+                                                    ?>
+                                                        <span class="credential-badge-small" onclick="openCredentialModal('<?php echo $nomeEscaped; ?>', '<?php echo $descEscaped; ?>')" title="Clique para ver detalhes">
+                                                            <?php echo $nome; ?>
+                                                        </span>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php //endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="comment-content">
                                 <p><?php echo nl2br(htmlspecialchars($comentario['conteudo'])); ?></p>
-                            </div>
-                            <div class="comment-actions-small">
-                                <button class="btn-reply" type="button"><i class="fas fa-reply"></i> Responder</button>
-                                <button class="btn-like" type="button"><i class="fas fa-thumbs-up"></i> <span>0</span></button>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -128,6 +152,24 @@ if (!isset($parametro) || !is_array($parametro)) {
                         <p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                     </div>
                 <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE VISUALIZAÇÃO DE CREDENCIAL -->
+    <div id="credentialModal" class="modal-credential">
+        <div class="modal-content-credential">
+            <div class="modal-header-credential">
+                <h2 id="credentialModalTitle"></h2>
+                <button class="close-modal" onclick="closeCredentialModal()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="modal-body-credential">
+                <p id="credentialModalDesc"></p>
+            </div>
+
+            <div class="modal-footer-credential">
+                <button type="button" class="btn-close-modal" onclick="closeCredentialModal()">Fechar</button>
             </div>
         </div>
     </div>
@@ -239,6 +281,36 @@ if (!isset($parametro) || !is_array($parametro)) {
     </div>
     
     <script>
+        // Funções de Modal de Visualização de Credencial
+        function openCredentialModal(nome, descricao) {
+            const modal = document.getElementById('credentialModal');
+            document.getElementById('credentialModalTitle').textContent = nome;
+            document.getElementById('credentialModalDesc').textContent = descricao || 'Sem descrição disponível.';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCredentialModal() {
+            const modal = document.getElementById('credentialModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal de credencial ao clicar fora
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('credentialModal');
+            if (event.target === modal) {
+                closeCredentialModal();
+            }
+        });
+
+        // Fechar modal de credencial ao pressionar ESC
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeCredentialModal();
+            }
+        });
+
         function openEntrarModal() {
             document.getElementById('entrarModal').style.display = 'block';
         }

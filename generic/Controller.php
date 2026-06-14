@@ -25,6 +25,9 @@ class Controller
             "downvote" => new Acao("Post", "downvote"),
             "salvar" => new Acao("Post", "salvar"),
             "postI" => new Acao("post", "PostI"),
+            "editarBiografia" => new Acao("PerfilController", "editarBiografia"),
+            "adcionarCredencial" => new Acao("PerfilController", "adicionarCredencial"),
+            "removerCredencial" => new Acao("PerfilController", "removerCredencial")
         ];
     }
 

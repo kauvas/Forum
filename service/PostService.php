@@ -21,6 +21,11 @@ class PostService extends PostDAO
         return parent::getComentarios($post_id);
     }
 
+    public function getCredenciaisPorUsuario($usuario_id)
+    {
+        return parent::getCredenciaisPorUsuario($usuario_id);
+    }
+
     public function criarComentario($post_id, $usuario_id,$conteudo)
     {
         return parent::criarComentario($post_id, $usuario_id,$conteudo);

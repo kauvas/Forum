@@ -4,10 +4,11 @@ namespace template;
 
 class PerfilControllerTemp implements Itemplate
 {
-    public function cabecalho()
+        public function cabecalho()
     {
-        echo
-        "<header class='header'>
+        //session_start();
+        if (isset($_SESSION['usuario'])) {
+            echo "<header class='header'>
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
@@ -24,10 +25,34 @@ class PerfilControllerTemp implements Itemplate
                 <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span>
                 </div>
                 <div class='logo'>
-                    <a href='perfil'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-comments'></i> </button></a>
+                    <a href='perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . "'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-comments'></i> </button></a>
                 </div>
             </div>
         </header>";
+        }
+        else {
+        echo
+        "<header class='header'>
+            <div class='header-container'>
+                <!-- Logo -->
+                <div class='logo'>
+                    <a class='logo' href='redirect' style='text-decoration: none'> <i class='fas fa-comments'></i> </a>
+                    <span>MY FORUM</span>
+                </div>
+
+                <!-- Barra de Pesquisa -->
+                <div class='search-bar'>
+                    <input type='text' placeholder='Pesquisar tópicos, categorias...'>
+                    <button><i class='fas fa-search'></i></button>
+                </div>
+
+                <!-- Botão de Login -->
+                <div class='auth-buttons'>
+                    <button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-sign-in-alt'></i> Entrar</button>
+                </div>
+            </div>
+        </header>";
+        }
     }
     public function layout($caminho, $parametro = null)
     {   

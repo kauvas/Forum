@@ -196,7 +196,7 @@ $usuario = $_SESSION['usuario'] ?? null;
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="content">
-            <?php var_dump($parametro) ?>
+            <?php //var_dump($parametro) ?>
             <div class="criar-post-container">
                 <div class="criar-post-header">
                     <i class="fas fa-edit"></i>

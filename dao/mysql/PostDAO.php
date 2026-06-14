@@ -56,13 +56,34 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
 
     public function getComentarios($post_id)
     {
-        $sql = "select c.*, u.nome as nome_usuario from comentarios c left join usuarios u on c.usuario_id = u.id where c.post_id = :post_id";
+        $sql = "select c.*, u.nome as nome_usuario, u.id as usuario_id from comentarios c left join usuarios u on c.usuario_id = u.id where c.post_id = :post_id";
         $param = [
             ":post_id" => $post_id
         ];
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function getIDUsuarioComentarios($post_id)
+    {
+        $sql = "select usuario_id from comentarios where post_id = :post_id";
+        $param = [
+            ":post_id" => $post_id
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getCredenciaisPorUsuario($usuario_id)
+    {
+        $sql = "select credencial_id, usuario_id, nome, descricao from credenciais where usuario_id = :usuario_id";
+        $param = [
+            ":usuario_id" => $usuario_id
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
 
     public function upvote($post_id, $usuario_id, $tipo)
     {

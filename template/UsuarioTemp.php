@@ -24,7 +24,7 @@ class UsuarioTemp implements Itemplate
                 <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span>
                 </div>
                 <div class='logo'>
-                    <a class='btn-login' href='perfil' style='text-decoration: none'><i class='fas fa-comments'></i></a>
+                    <a class='btn-login' href=perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . " style='text-decoration: none'><i class='fas fa-comments'></i></a>
                 </div>
             </div>
         </header>";
