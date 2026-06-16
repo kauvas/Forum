@@ -24,6 +24,7 @@ class Post
         $post = $service->getPost($id);
         $comentarios = $service->getComentarios($id);
         $id_usuario_comentarios = $service->getIDUsuarioComentarios($id);
+        $count_interacoes = $service->getInteracoes($id);
 
         $credenciais = [];
         foreach ($id_usuario_comentarios as $usuario) {
@@ -37,7 +38,7 @@ class Post
             $comentarios_por_post = $resultado[0]['total_comentarios'] ?? 0;
         }
 
-        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios, "credenciais" => $credenciais, "cont_comentarios" => $comentarios_por_post]);
+        $this->template->layout("Post.php", ["post" => $post, "id" => $id, "comentarios" => $comentarios, "credenciais" => $credenciais, "cont_comentarios" => $comentarios_por_post, "interacoes" => $count_interacoes]);
     }
 
     public function carregarCriarPost()
@@ -67,45 +68,79 @@ class Post
         $service = new PostService();
         $post_id = $_POST['post_id'];
         $conteudo = $_POST['conteudo'];
+        if ($conteudo == "") {
+            header("Location: post?id=$post_id#erroComentario");
+            return;
+        }
         $service->criarComentario($post_id, $usuario_id, $conteudo);
         header("Location: post?id=$post_id");
     }
 
     public function upvote()
     {
-        session_start();
-        $usuario_id = $_POST['usuario_id'];
         $service = new PostService();
+        $usuario_id = $_POST['usuario_id'];
         $post_id = $_POST['post_id'];
+        $checkup = $service->checarInteracao($post_id, $usuario_id, 1);
+        $checkdown = $service->checarInteracao($post_id, $usuario_id, 2);
+
+        if ($checkdown[0]['usuario_id'] == $usuario_id) {
+            $service->mudarInteracao($post_id, $usuario_id, 1);
+            header("Location: post?id=$post_id#mudarUp");
+            return;
+        }
+
+        if ($checkup[0]['usuario_id'] == $usuario_id) {
+            $service->deletarInteracao($post_id, $usuario_id, 1);
+            header("Location: post?id=$post_id#deletarUp");
+            return;
+        }
+
         $tipo = 1;
-        $post = $service->getPost($post_id);
-        $comentarios = $service->getComentarios($post_id);
         $service->upvote($post_id, $usuario_id, $tipo);
-        header("Location: post?id=$post_id");
+        header("Location: post?id=$post_id#Upvote");
     }
 
     public function downvote()
     {
-        session_start();
-        $usuario_id = $_POST['usuario_id'];
         $service = new PostService();
+        $usuario_id = $_POST['usuario_id'];
         $post_id = $_POST['post_id'];
+        $checkdown = $service->checarInteracao($post_id, $usuario_id, 2);
+        $checkup = $service->checarInteracao($post_id, $usuario_id, 1);
+
+        if ($checkup[0]['usuario_id'] == $usuario_id) {
+            $service->mudarInteracao($post_id, $usuario_id, 2);
+            header("Location: post?id=$post_id#mudarDown");
+            return;
+        }
+
+        if ($checkdown[0]['usuario_id'] == $usuario_id) {
+            $service->deletarInteracao($post_id, $usuario_id, 2);
+            header("Location: post?id=$post_id#deletarDown");
+            return;
+        }
+
         $tipo = 2;
-        $post = $service->getPost($post_id);
-        $comentarios = $service->getComentarios($post_id);
         $service->downvote($post_id, $usuario_id, $tipo);
-        header("Location: post?id=$post_id");
+        header("Location: post?id=$post_id#Downvote");
     }
 
     public function salvar()
     {
-        session_start();
-        $usuario_id = $_POST['usuario_id'];
         $service = new PostService();
+        $usuario_id = $_POST['usuario_id'];
         $post_id = $_POST['post_id'];
+
+        $check = $service->checarInteracao($post_id, $usuario_id, 3);
+
+        if ($check[0]['usuario_id'] == $usuario_id) {
+            $service->deletarInteracao($post_id, $usuario_id, 3);
+            header("Location: post?id=$post_id");
+            return;
+        }
+
         $tipo = 3;
-        $post = $service->getPost($post_id);
-        $comentarios = $service->getComentarios($post_id);
         $service->salvar($post_id, $usuario_id, $tipo);
         header("Location: post?id=$post_id");
     }

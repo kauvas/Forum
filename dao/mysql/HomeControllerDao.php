@@ -50,4 +50,14 @@ class HomeControllerDAO extends MysqlFactory /*implements IHomeControllerDAO*/
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function getInteracoes($post_id)
+    {
+        $sql = "select count(*) as total from interacoes where post_id = :post_id group by tipo";
+        $param = [
+            ":post_id" => $post_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
 }

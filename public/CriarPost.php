@@ -173,7 +173,6 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
                     <li><a href="perfil?id=<?php echo $_SESSION['id_usuario']?>" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
-                    <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
                 </ul>
             </nav>
         </aside>

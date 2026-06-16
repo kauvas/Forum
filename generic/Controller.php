@@ -13,7 +13,7 @@ class Controller
             "perfil" => new Acao("PerfilController", "Perfil"),
             "logout" => new Acao("Usuario", "logout"),
             "post" => new Acao("Post", "Post"),
-            "carregarCriarPost" => new Acao("Post", "carregarCriarPost"),
+            "CriarPost" => new Acao("Post", "carregarCriarPost"),
             "salvarPost" => new Acao("Post", "criarPost"),
             "criarComentario" => new Acao("Post", "criarComentario"),
             "upvote" => new Acao("Post", "upvote"),
@@ -22,7 +22,8 @@ class Controller
             "editarBiografia" => new Acao("PerfilController", "editarBiografia"),
             "adcionarCredencial" => new Acao("PerfilController", "adicionarCredencial"),
             "removerCredencial" => new Acao("PerfilController", "removerCredencial"),
-            "limpa" => new Acao("HomeController", "Limpa")
+            "limpa" => new Acao("HomeController", "Limpa"),
+            "login" => new Acao("Usuario", "login")
         ];
     }
 

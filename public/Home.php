@@ -17,7 +17,7 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
-<?php //var_dump($parametro['teste']); //var_dump($usuario)  ?>
+<?php //var_dump($parametro['interacoes_por_post']); //var_dump($usuario)  ?>
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
         <!-- SIDEBAR -->
@@ -27,7 +27,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                 <h3><i class="fas fa-home"></i> Menu</h3>
                 <?php if (isset($usuario)) {
                     //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
-                    echo '<a class="btn-novo-topico" href="carregarCriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
+                    echo '<a class="btn-novo-topico" href="CriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
                     } ?>
 
                 <ul class="nav-list">
@@ -36,9 +36,6 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
                     <?php if (isset($usuario)) {
                     echo '<li><a href="perfil?id=' . htmlspecialchars($_SESSION['id_usuario']) . '" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>';
-                    } ?>
-                    <?php if (isset($usuario)) {
-                    echo '<li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>';
                     } ?>
                 </ul>
 
@@ -77,13 +74,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                                 </div>
                                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
-                            <!--
-                            <form action="<?php if (isset($_SESSION['usuario'])) {echo 'post';} else {echo 'postVisitante';} ?>" method="post">
-                            <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>">
-                            <button class='btn-titulo' type="submit"> <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
-                            </form>
-                            -->
-                            
+                
                             <a href="post?id=<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>" style="text-decoration: none">
                                 <button class="btn-titulo">
                                 <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
@@ -100,8 +91,8 @@ $usuario = $_SESSION['usuario'] ?? null;
                                 }
                             ?><br></p>
                             <div class="post-footer">
-                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo htmlspecialchars($parametro['comentarios_por_post'][$post['post_id']] ?? '0'); ?> comentários</span>
-                                <span class="post-stats"><i class="fas fa-star"></i> <?php echo htmlspecialchars($post['curtidas'] ?? '0'); ?> | <i class="fas fa-times"></i></span>
+                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo $parametro['comentarios_por_post'][$post['post_id']] ?? '0'; ?> comentários</span>
+                                <span class="post-stats"><i class="fas fa-star"></i> <?php echo $parametro['interacoes_por_post'][$post['post_id']]["upvotes"]; ?> | <i class="fas fa-times"></i> <?php echo $parametro['interacoes_por_post'][$post['post_id']]["downvotes"]; ?>  </span>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -127,7 +118,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                     <h2 class="tab-title">Bem-vindo de volta!</h2>
                     <p class="tab-subtitle">Faça login para acessar a comunidade</p>
 
-                    <form id="loginForm" method="POST" action="homeL" class="auth-form">
+                    <form id="loginForm" method="POST" action="login" class="auth-form">
                         <div class="form-group">
                             <label for="email"><i class="fas fa-envelope"></i> Email</label>
                             <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">

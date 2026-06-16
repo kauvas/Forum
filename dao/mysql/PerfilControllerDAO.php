@@ -81,7 +81,7 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
         return $retorno;
     }
 
-    public function getCountComentarios($usuario_id)
+    public function getCountComentariosUsuario($usuario_id)
     {
         $sql = "SELECT COUNT(*) as total_comentarios FROM comentarios WHERE usuario_id = :usuario_id";
         $param = [
@@ -95,6 +95,40 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
     {
         $sql = "SELECT COUNT(*) as total_posts FROM posts WHERE usuario_id = :usuario_id";
         $param = [
+            ":usuario_id" => $usuario_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getCountComentariosPost($post_id)
+    {
+        $sql = "SELECT COUNT(*) as total_comentarios FROM comentarios WHERE post_id = :post_id";
+        $param = [
+            ":post_id" => $post_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getInteracoes($post_id)
+    {
+        $sql = "select count(*) as total from interacoes where post_id = :post_id group by tipo";
+        $param = [
+            ":post_id" => $post_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getPostsSalvos($usuario_id)
+    {
+        $sql = "SELECT DISTINCT p.post_id, p.titulo, p.conteudo, p.usuario_id AS autor_post
+                FROM posts p
+                INNER JOIN interacoes i ON p.post_id = i.post_id
+                WHERE i.tipo = 3 
+                AND i.usuario_id = :usuario_id";
+        $param = [ 
             ":usuario_id" => $usuario_id,
         ];
         $retorno = $this->banco->executar($sql, $param);

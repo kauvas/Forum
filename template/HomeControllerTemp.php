@@ -6,6 +6,7 @@ class HomeControllerTemp implements Itemplate
 {
     public function cabecalho()
     {
+        ini_set('display_errors', '0');
         //session_start();
         if ($_SESSION['logado']) {
             echo "<header class='header'>
@@ -29,6 +30,7 @@ class HomeControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
+        ini_set('display_errors', '1');
         }
         else {
         echo
@@ -52,6 +54,7 @@ class HomeControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
+        ini_set('display_errors', '1');
         }
     }
     public function layout($caminho, $parametro = null)

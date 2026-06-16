@@ -5,6 +5,13 @@ if (!isset($parametro) || !is_array($parametro)) {
 //echo $_SESSION['usuario'];
 $usuario = $_SESSION['usuario'] ?? null;
 $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
+
+$karma = 0;
+foreach ($parametro["posts"] as $post) {
+    $karma += $parametro['contagens_por_posts'][$post['post_id']]['interacoes']['upvotes'];
+    $karma -= $parametro['contagens_por_posts'][$post['post_id']]['interacoes']['downvotes'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +26,7 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
 </head>
 
 <body>
-    <?php //var_dump($parametro["comentarios_por_post"]) ?>
+    <?php //var_dump($parametro['estado_salvo']) ?>
 
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
@@ -28,17 +35,14 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
             <nav class="sidebar-nav">
                 <h3><i class="fas fa-home"></i> Menu</h3>
 
-                <?php if (isset($usuario)) {
-                    //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
-                    echo '<a class="btn-novo-topico" href="carregarCriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
-                    } ?>
+                <?php ini_set('display_errors', '0'); if ($_SESSION['logado'] == true) {
+                    echo '<a class="btn-novo-topico" href="CriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
+                } ?>
 
                 <ul class="nav-list">
                     <li><a href='home' class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
                     <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
-                    <li><a href="#meus-posts" class="nav-link active"><i class="fas fa-user"></i> Meus Posts</a></li>
-                    <li><a href="#favoritos" class="nav-link"><i class="fas fa-bookmark"></i> Favoritos</a></li>
                 </ul>
             </nav>
         </aside>
@@ -65,7 +69,7 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
                         <div class="profile-stats">
                             <div class="stat-item">
                                 <span class="stat-label">Karma</span>
-                                <span class="stat-value">1,250</span>
+                                <span class="stat-value"><?php echo $karma ?></span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Posts</span>
@@ -104,15 +108,19 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
 
             <!-- Abas de Conteúdo -->
             <div class="profile-tabs">
+                <?php if ($parametro['estado-salvo'] == 1): ?>
                 <button class="tab-btn active" onclick="switchProfileTab('posts')">
                     <i class="fas fa-pen-fancy"></i> Posts
                 </button>
+                <?php else: ?>
+                <a href="perfil?id=<?php echo $parametro['id_pagina'] ?>" style="text-decoration: none" class="tab-btn">
+                    <i class="fas fa-pen-fancy"></i> Posts</a>
+                <?php endif ?>
                 <button class="tab-btn" onclick="switchProfileTab('comentarios')">
                     <i class="fas fa-comments"></i> Comentários
                 </button>
-                <button class="tab-btn" onclick="switchProfileTab('saved')">
-                    <i class="fas fa-bookmark"></i> Salvos
-                </button>
+                <a href="perfil?id=<?php echo $parametro['id_pagina'] ?>&s=1" style="text-decoration: none" class="tab-btn">
+                    <i class="fas fa-bookmark"></i> Salvos</a>
             </div>
 
             <!-- Conteúdo das Abas -->
@@ -131,10 +139,9 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
                                 </div>
                                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
                             </div>
-                            <form action='post' method="post">
-                            <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>">
-                            <button class='btn-titulo' type="submit"> <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
-                            </form>
+                            <a href="post?id=<?php echo $post['post_id']; ?>" style="text-decoration: none; color: inherit;">
+                            <button class='btn-titulo' type="submit"><h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3> </button>
+                            </a>
                             <p class="post-excerpt"><?php 
                                 $conteudo = $post['conteudo'] ?? 'Sem conteúdo';
                                 $tam_string = 110;
@@ -143,7 +150,12 @@ $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
                                 } else {
                                     echo htmlspecialchars($conteudo);
                                 }
-                            ?><br>
+                            ?><br></p>
+                            <div class="post-footer">
+                                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo $parametro["contagens_por_posts"][$post['post_id']]['comentarios'] ?? '0'; ?> comentários</span>
+                                <span class="post-stats"><i class="fas fa-star"></i> <?php echo $parametro["contagens_por_posts"][$post['post_id']]['interacoes']['upvotes'] ?? '0'; ?> upvotes</span>
+                                <span class="post-stats"><i class="fas fa-times"></i> <?php echo $parametro["contagens_por_posts"][$post['post_id']]['interacoes']['downvotes'] ?? '0'; ?> downvotes</span>
+                            </div>
                         </article>
                     <?php endforeach; ?>
                 <?php else: ?>

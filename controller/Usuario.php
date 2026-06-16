@@ -34,8 +34,6 @@ class Usuario
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $usuario = $service->login($email, $senha);
-        $posts = $service->getPosts();
-        $categorias = $service->getCategories();
         session_start();
         if (count($usuario) > 0 || $_SESSION["usuario"] !== null) {
             //Login bem-sucedido

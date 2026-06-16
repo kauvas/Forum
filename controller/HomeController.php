@@ -28,19 +28,25 @@ class HomeController
         $categorias = $service->getCategories();
         
         $comentarios_por_post = [];
+        $interacoes_por_post = [];
         foreach ($posts as $post) {
-            $resultado = $service->getCountComentarios($post['post_id']);
-            $comentarios_por_post[$post['post_id']] = $resultado[0]['total_comentarios'] ?? 0;
+            $resultado_comentarios = $service->getCountComentarios($post['post_id']);
+            $resultado_interacoes = $service->getInteracoes($post['post_id']);
+            $comentarios_por_post[$post['post_id']] = $resultado_comentarios[0]['total_comentarios'] ?? 0;
+            $interacoes_por_post[$post['post_id']] = [
+                "upvotes" => $resultado_interacoes[0]['total'] ?? 0,
+                "downvotes" => $resultado_interacoes[1]['total'] ?? 0,
+            ];
         }
         
         ini_set('display_errors', '0');
         if ($_GET['categoria']){
             $categoria = $_GET['categoria'];
             $posts = $service->getPostsByCategory($categoria);
-            $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post]);
+            $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post, "interacoes_por_post" => $interacoes_por_post]);
         } else {
             ini_set('display_errors', '1');
-            $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post]);
+            $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "comentarios_por_post" => $comentarios_por_post, "interacoes_por_post" => $interacoes_por_post]);
         }
     }
 

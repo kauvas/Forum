@@ -130,4 +130,50 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
+
+    public function checarInteracao($post_id, $usuario_id, $tipo)
+    {
+        $sql = "select usuario_id from interacoes where post_id = :post_id and usuario_id = :usuario_id and tipo = :tipo";
+        $param = [
+            ":post_id" => $post_id,
+            ":usuario_id" => $usuario_id,
+            ":tipo" => $tipo
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function deletarInteracao($post_id, $usuario_id, $tipo)
+    {
+        $sql = "delete from interacoes where post_id = :post_id and usuario_id = :usuario_id and tipo = :tipo";
+        $param = [
+            ":post_id" => $post_id,
+            ":usuario_id" => $usuario_id,
+            ":tipo" => $tipo
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function mudarInteracao($post_id, $usuario_id, $tipo)
+    {
+        $sql = "update interacoes set tipo = :tipo where post_id = :post_id and usuario_id = :usuario_id";
+        $param = [
+            ":post_id" => $post_id,
+            ":usuario_id" => $usuario_id,
+            ":tipo" => $tipo
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getInteracoes($post_id)
+    {
+        $sql = "select count(*) as total from interacoes where post_id = :post_id group by tipo";
+        $param = [
+            ":post_id" => $post_id,
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
 }

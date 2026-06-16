@@ -2,6 +2,7 @@
 if (!isset($parametro) || !is_array($parametro)) {
     $parametro = [];
 }
+$logado = $_SESSION['logado'] ?? false;
 //echo $_SESSION['usuario'];
 //$usuario = $_SESSION['usuario'] ?? null;
 ?>
@@ -22,7 +23,8 @@ if (!isset($parametro) || !is_array($parametro)) {
     <span><?php                                   //id_usuario / qual credencial / dados
                 //var_dump($parametro['credenciais'][1][0])
                 //var_dump($parametro['credenciais'][1])
-                //var_dump($parametro['comentarios'][3]);
+                //var_dump($parametro['interacoes']);
+                //var_dump($_SESSION['teste']);
                 ?></span>
     <!-- Main Container -->
     <div class="post-container">
@@ -55,14 +57,14 @@ if (!isset($parametro) || !is_array($parametro)) {
                     <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_SESSION['id_usuario'] ?? ''); ?>">
                     <button class="action-btn" type="submit">
                         <i class="fas fa-star"></i>
-                        <span>Upvote</span>
+                        <span>Upvote <?php ini_set('display_errors', '0'); echo $parametro['interacoes'][0]['total'] ?? '0' ?> </span>
                 </form>
                 <form method="POST" action="downvote">
                     <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
                     <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_SESSION['id_usuario'] ?? ''); ?>">
                     <button class="action-btn" type="submit">
                         <i class="fas fa-times"></i>
-                        <span>Downvote</span>
+                        <span>Downvote <?php echo $parametro['interacoes'][1]['total'] ?? '0'; ini_set('display_errors', '1');?> </span>
                 </form>
                 <form method="POST" action="salvar">
                     <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
@@ -193,7 +195,7 @@ if (!isset($parametro) || !is_array($parametro)) {
                 <h2 class="tab-title">Bem-vindo de volta!</h2>
                 <p class="tab-subtitle">Faça login para acessar a comunidade</p>
 
-                <form id="loginForm" method="POST" action="homeL" class="auth-form">
+                <form id="loginForm" method="POST" action="login" class="auth-form">
                     <div class="form-group">
                         <label for="email"><i class="fas fa-envelope"></i> Email</label>
                         <input type="email" name="email" id="email" required placeholder="seu.email@dominio.com">
