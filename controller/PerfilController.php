@@ -23,11 +23,11 @@ class PerfilController
         if ($s == 1) {
             $posts = $service->getPostsSalvos($id);
         } else {
-            $posts = $service-> getPostsID($id);
+            $posts = $service->getPostsID($id);
         }
-        $comentarios = $service-> getComentarios($id);
-        $dados_usuario = $service-> getUsuarioDados($id);
-        $dados_credenciais = $service-> getCredenciais($id);
+        $comentarios = $service->getComentarios($id);
+        $dados_usuario = $service->getUsuarioDados($id);
+        $dados_credenciais = $service->getCredenciais($id);
 
         $comentarios_por_usuario = [];
         $countCom = $service->getCountComentariosUsuario($id);
@@ -78,9 +78,9 @@ class PerfilController
     {
         $service = new PerfilControllerService();
         session_start();
-        $id_credencial = $_POST['id_credencial'];
-        $id_usuario = $_POST['id_usuario'];
+        $id_credencial = $_GET['id_credencial'];
+        $id_usuario = $_GET['id_usuario'];
         $service->removerCredencial($id_usuario, $id_credencial);
-        header("Location: perfil?id=$id_usuario");
+        header("Location: perfil?id=$id_usuario#del");
     }
 }

@@ -19,20 +19,19 @@ class postTemp implements Itemplate
                 <div class='search-bar'>
                     <input type='text' placeholder='Pesquisar tópicos, categorias...'>
                     <button><i class='fas fa-search'></i></button>
-                </div>"
-                ;
-                if (isset($_SESSION['usuario'])) {
-                echo " <div class='logo'> <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span> </div>
+                </div>";
+        if (isset($_SESSION['usuario'])) {
+            echo " <div class='logo'> <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span> </div>
                 <div class='logo'>
                     <a href='perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . "'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-comments'></i> </button></a>
-                </div>";   
-                } else {
-                echo               
-                "<div class='auth-buttons'>
+                </div>";
+        } else {
+            echo
+            "<div class='auth-buttons'>
                     <button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-sign-in-alt'></i> Entrar</button>
                 </div>";
-                }
-            echo "</div>
+        }
+        echo "</div>
             </header>";
     }
     public function layout($caminho, $parametro = null)

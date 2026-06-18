@@ -15,14 +15,4 @@ class UsuarioService extends UsuarioDAO
     {
         return parent::login($email, $senha);
     }
-
-    public function getPosts()
-    {
-        return parent::getPosts();
-    }
-    public function getCategories()
-    {
-        return parent::getCategories();
-    }
 }
-

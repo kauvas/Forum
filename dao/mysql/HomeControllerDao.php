@@ -6,7 +6,7 @@ namespace dao\mysql;
 use generic\MysqlFactory;
 
 class HomeControllerDAO extends MysqlFactory /*implements IHomeControllerDAO*/
-{     
+{
     public function teste()
     {
         $sql = "select * from forum";

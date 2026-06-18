@@ -20,13 +20,13 @@ class HomeController
         session_start();
         ini_set('display_errors', '0');
         if (!$_SESSION['logado']) {
-        $_SESSION = [];
-        session_destroy();
+            $_SESSION = [];
+            session_destroy();
         }
         ini_set('display_errors', '1');
         $posts = $service->getPosts();
         $categorias = $service->getCategories();
-        
+
         $comentarios_por_post = [];
         $interacoes_por_post = [];
         foreach ($posts as $post) {
@@ -38,9 +38,9 @@ class HomeController
                 "downvotes" => $resultado_interacoes[1]['total'] ?? 0,
             ];
         }
-        
+
         ini_set('display_errors', '0');
-        if ($_GET['categoria']){
+        if ($_GET['categoria']) {
             $categoria = $_GET['categoria'];
             $posts = $service->getPostsByCategory($categoria);
             $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post, "interacoes_por_post" => $interacoes_por_post]);

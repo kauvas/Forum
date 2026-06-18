@@ -4,10 +4,7 @@ namespace template;
 
 class UsuarioTemp implements Itemplate
 {
-    public function cabecalho()
-    {
-
-    }
+    public function cabecalho() {}
     public function layout($caminho, $parametro = null)
     {
         $this->cabecalho();

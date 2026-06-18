@@ -29,7 +29,7 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
 
     public function getUsuarioDados($usuario_id)
     {
-        $sql = "select usuario, biografia from usuarios where id = :usuario_id";
+        $sql = "select email, id, usuario, biografia from usuarios where id = :usuario_id";
         $param = [
             ":usuario_id" => $usuario_id
         ];
@@ -62,7 +62,7 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
 
     public function getCredenciais($usuario_id)
     {
-        $sql = "select nome,descricao,credencial_id from credenciais where usuario_id = :usuario_id";
+        $sql = "select nome,descricao,credencial_id,usuario_id from credenciais where usuario_id = :usuario_id";
         $param = [
             ":usuario_id" => $usuario_id
         ];
@@ -128,7 +128,7 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
                 INNER JOIN interacoes i ON p.post_id = i.post_id
                 WHERE i.tipo = 3 
                 AND i.usuario_id = :usuario_id";
-        $param = [ 
+        $param = [
             ":usuario_id" => $usuario_id,
         ];
         $retorno = $this->banco->executar($sql, $param);

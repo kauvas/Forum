@@ -22,8 +22,8 @@ class Usuario
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $service->registrar($nome, $usuario, $email, $senha);
-        $_SESSION["usuario"] = $usuario[0]['usuario'];
-        $_SESSION["id_usuario"] = $usuario[0]['id'];
+        //$_SESSION["usuario"] = $usuario[0]['usuario'];
+        //$_SESSION["id_usuario"] = $usuario[0]['id'];
         $_SESSION["logado"] = true;
         header("Location: home");
     }
@@ -46,5 +46,42 @@ class Usuario
             session_destroy();
             header("Location: home#erro");
         }
+    }
+
+    public function atualizarConta()
+    {
+        /*
+        echo $_POST['email'];
+        echo '<br>';
+        echo $_POST['nova_senha'];
+        if (empty($_POST['nova_senha'])) {
+            echo "nada";
+        }
+        echo '<br>';
+        echo $_POST['id_usuario'];
+        */
+
+        $service = new UsuarioService();
+        $email = $_POST['email'];
+        $senha = $_POST['nova_senha'];
+        $usuario_id = $_POST['usuario_id'];
+
+        if (!empty($email)) {
+            $service->atualizarContaEmail($usuario_id, $email);
+        }
+
+        if (!empty($senha)) {
+            $service->atualizarContaSenha($usuario_id, $senha);
+        }
+
+        header("Location: perfil?id=$usuario_id");
+    }
+
+    public function deletarConta()
+    {
+        $service = new UsuarioService();
+        $id = $_GET['usuario_id'];
+        $service->deletarConta($id);
+        header("Location: limpa");
     }
 }

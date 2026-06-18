@@ -23,7 +23,9 @@ class Controller
             "adcionarCredencial" => new Acao("PerfilController", "adicionarCredencial"),
             "removerCredencial" => new Acao("PerfilController", "removerCredencial"),
             "limpa" => new Acao("HomeController", "Limpa"),
-            "login" => new Acao("Usuario", "login")
+            "login" => new Acao("Usuario", "login"),
+            "atualizarConta" => new Acao("Usuario", "atualizarConta"),
+            "excluirConta" => new Acao("Usuario", "deletarConta")
         ];
     }
 

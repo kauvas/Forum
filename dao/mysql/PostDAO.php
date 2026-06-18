@@ -19,7 +19,7 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
 
     public function getPost($id)
     {
-        
+
         $sql = "select p.*, u.nome as nome_usuario from posts p left join usuarios u on p.usuario_id = u.id where p.post_id = :post_id";
         $param = [
             ":post_id" => $id
@@ -42,7 +42,7 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
         return $retorno;
     }
 
-    public function criarComentario($post_id, $usuario_id,$conteudo)
+    public function criarComentario($post_id, $usuario_id, $conteudo)
     {
         $sql = "insert into comentarios (post_id, usuario_id, conteudo) values (:post_id, :usuario_id, :conteudo)";
         $param = [
@@ -54,7 +54,7 @@ class PostDAO extends MysqlFactory /*implements IPostDAO*/
         return $retorno;
     }
 
-        public function getCountComentarios($post_id)
+    public function getCountComentarios($post_id)
     {
         $sql = "SELECT COUNT(*) as total_comentarios FROM comentarios WHERE post_id = :post_id";
         $param = [

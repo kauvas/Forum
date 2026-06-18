@@ -1494,6 +1494,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -1516,6 +1517,7 @@ body {
         transform: translateY(50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -1831,5 +1833,134 @@ body {
     .btn-cancel,
     .btn-save-profile {
         width: 100%;
+    }
+}
+
+/* ========== MODAL DE OPÇÕES DE CONTA ========== */
+.modal-settings {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-settings.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content-settings {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header-settings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.modal-header-settings h2 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-header-settings h2 i {
+    color: #667eea;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.settings-divider {
+    border: none;
+    height: 1px;
+    background: #eee;
+    margin: 0.5rem 0;
+}
+
+/* Estilização da área de exclusão de conta */
+.danger-zone {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.danger-zone h3 {
+    color: #c53030;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.danger-zone p {
+    font-size: 0.85rem;
+    color: #742a2a;
+    margin-bottom: 1rem;
+}
+
+.btn-delete-account {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #fff;
+    color: #c53030;
+    border: 1px solid #e53e3e;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-delete-account:hover {
+    background-color: #c53030;
+    color: white;
+    box-shadow: 0 4px 12px rgba(197, 48, 48, 0.2);
+}
+
+/* Responsivo do Modal de Configurações */
+@media (max-width: 768px) {
+    .modal-content-settings {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .settings-form .form-actions {
+        flex-direction: column;
+    }
+
+    .settings-form .btn-cancel,
+    .settings-form .btn-save-profile {
+        width: 100%;
+        text-align: center;
     }
 }

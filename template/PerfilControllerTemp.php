@@ -30,11 +30,10 @@ class PerfilControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
-        ini_set('display_errors', '1');
-        }
-        else {
-        echo
-        "<header class='header'>
+            ini_set('display_errors', '1');
+        } else {
+            echo
+            "<header class='header'>
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
@@ -54,11 +53,11 @@ class PerfilControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
-        ini_set('display_errors', '1');
+            ini_set('display_errors', '1');
         }
     }
     public function layout($caminho, $parametro = null)
-    {   
+    {
         $this->cabecalho();
         if ($parametro !== null) {
             // Torna $parametro disponível no arquivo incluído

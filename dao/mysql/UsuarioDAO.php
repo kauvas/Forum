@@ -31,17 +31,50 @@ class UsuarioDAO extends MysqlFactory /*implements IUsuarioDAO*/
         return $retorno;
     }
 
-    public function getPosts()
+    public function atualizarContaEmail($usuario_id, $email)
     {
-        $sql = "select p.*, u.nome as nome_usuario from posts p left join usuarios u on p.usuario_id = u.id";
-        $retorno = $this->banco->executar($sql);
+        $sql = "update usuarios set Email = :email where id = :usuario_id";
+        $param = [
+            ":usuario_id" => $usuario_id,
+            ":email" => $email
+        ];
+        $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
 
-    public function getCategories()
+    public function atualizarContaSenha($usuario_id, $senha)
     {
-        $sql = "SELECT categoria, COUNT(*) as total_posts FROM posts GROUP BY categoria ORDER BY categoria";
-        $retorno = $this->banco->executar($sql);
+        $sql = "update usuarios set Senha = :senha where id = :usuario_id";
+        $param = [
+            ":usuario_id" => $usuario_id,
+            ":senha" => $senha
+        ];
+        $retorno = $this->banco->executar($sql, $param);
         return $retorno;
+    }
+
+    public function deletarConta($usuario_id)
+    {
+        $sqlComentarios = "delete from comentarios where usuario_id = :usuario_id";
+        $param = [":usuario_id" => $usuario_id];
+        $this->banco->executar($sqlComentarios, $param);
+
+        $sqlCredenciais = "delete from credenciais where usuario_id = :usuario_id";
+        $param = [":usuario_id" => $usuario_id];
+        $this->banco->executar($sqlCredenciais, $param);
+
+        $sqlInteracoes = "delete from interacoes where usuario_id = :usuario_id";
+        $param = [":usuario_id" => $usuario_id];
+        $this->banco->executar($sqlInteracoes, $param);
+
+        $sqlPosts = "delete from posts where usuario_id = :usuario_id";
+        $param = [":usuario_id" => $usuario_id];
+        $this->banco->executar($sqlPosts, $param);
+
+        $sqlUsuarios = "delete from usuarios where id = :usuario_id";
+        $param = [":usuario_id" => $usuario_id];
+        $this->banco->executar($sqlUsuarios, $param);
+
+        return;
     }
 }

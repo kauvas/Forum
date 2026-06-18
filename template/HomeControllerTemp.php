@@ -30,11 +30,10 @@ class HomeControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
-        ini_set('display_errors', '1');
-        }
-        else {
-        echo
-        "<header class='header'>
+            ini_set('display_errors', '1');
+        } else {
+            echo
+            "<header class='header'>
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
@@ -54,7 +53,7 @@ class HomeControllerTemp implements Itemplate
                 </div>
             </div>
         </header>";
-        ini_set('display_errors', '1');
+            ini_set('display_errors', '1');
         }
     }
     public function layout($caminho, $parametro = null)
