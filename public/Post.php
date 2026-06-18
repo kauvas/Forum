@@ -360,18 +360,6 @@ $logado = $_SESSION['logado'] ?? false;
       }
     }
 
-    // Adicionar interatividade aos botões
-    document.querySelectorAll('.action-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        if (this.classList.contains('upvoted') || this.classList.contains('downvoted')) {
-          this.classList.remove('upvoted', 'downvoted');
-        } else if (this.innerText.includes('Upvote')) {
-          this.classList.add('upvoted');
-        } else if (this.innerText.includes('Downvote')) {
-          this.classList.add('downvoted');
-        }
-      });
-    });
   </script>
 
 </body>

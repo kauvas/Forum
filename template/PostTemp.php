@@ -11,8 +11,8 @@ class postTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <a href='home'><i class='fas fa-comments'></i></a>
-                    <span>MY FORUM</span>
+                    <a href='home'><img src='style\Path 5.svg'></a>
+                    <span>OnCred</span>
                 </div>
 
                 <!-- Barra de Pesquisa -->
@@ -23,7 +23,7 @@ class postTemp implements Itemplate
         if (isset($_SESSION['usuario'])) {
             echo " <div class='logo'> <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span> </div>
                 <div class='logo'>
-                    <a href='perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . "'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-comments'></i> </button></a>
+                    <a href='perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . "'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-user'></i> </button></a>
                 </div>";
         } else {
             echo

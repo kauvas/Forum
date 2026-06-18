@@ -1,0 +1,140 @@
+ .criar-post-container {
+     max-width: 900px;
+     margin: 40px auto;
+     padding: 0 20px;
+ }
+
+ .criar-post-header {
+     display: flex;
+     align-items: center;
+     gap: 15px;
+     margin-bottom: 30px;
+     padding-bottom: 20px;
+     border-bottom: 2px solid #e0e0e0;
+ }
+
+ .criar-post-header h1 {
+     font-size: 28px;
+     color: #1a1a1a;
+     margin: 0;
+ }
+
+ .criar-post-form {
+     background: #fff;
+     padding: 30px;
+     border-radius: 8px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ .form-group-criar {
+     margin-bottom: 25px;
+ }
+
+ .form-group-criar label {
+     display: block;
+     font-weight: 600;
+     color: #1a1a1a;
+     margin-bottom: 8px;
+     font-size: 14px;
+ }
+
+ .form-group-criar input[type="text"],
+ .form-group-criar textarea,
+ .form-group-criar select {
+     width: 100%;
+     padding: 12px;
+     border: 1px solid #ccc;
+     border-radius: 6px;
+     font-family: inherit;
+     font-size: 14px;
+     transition: border-color 0.3s;
+     box-sizing: border-box;
+ }
+
+ .form-group-criar input[type="text"]:focus,
+ .form-group-criar textarea:focus,
+ .form-group-criar select:focus {
+     outline: none;
+     border-color: #007bff;
+     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+ }
+
+ .form-group-criar textarea {
+     resize: vertical;
+     min-height: 300px;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ .form-row-criar {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 20px;
+ }
+
+ .form-actions-criar {
+     display: flex;
+     gap: 15px;
+     justify-content: flex-end;
+     margin-top: 30px;
+     padding-top: 20px;
+     border-top: 1px solid #e0e0e0;
+ }
+
+ .btn-criar {
+     padding: 12px 30px;
+     border: none;
+     border-radius: 6px;
+     font-size: 14px;
+     font-weight: 600;
+     cursor: pointer;
+     transition: all 0.3s;
+     display: flex;
+     align-items: center;
+     gap: 8px;
+ }
+
+ .btn-publicar {
+     background: #007bff;
+     color: white;
+ }
+
+ .btn-publicar:hover {
+     background: #0056b3;
+     transform: translateY(-2px);
+     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+ }
+
+ .btn-cancelar {
+     background: #f0f0f0;
+     color: #333;
+ }
+
+ .btn-cancelar:hover {
+     background: #e0e0e0;
+ }
+
+ .character-count {
+     font-size: 12px;
+     color: #999;
+     margin-top: 5px;
+     text-align: right;
+ }
+
+ @media (max-width: 768px) {
+     .form-row-criar {
+         grid-template-columns: 1fr;
+     }
+
+     .form-actions-criar {
+         flex-direction: column-reverse;
+     }
+
+     .btn-criar {
+         width: 100%;
+         justify-content: center;
+     }
+
+     .criar-post-container {
+         margin: 20px auto;
+     }
+ }

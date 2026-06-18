@@ -13,8 +13,8 @@ class HomeControllerTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <i class='fas fa-comments'></i>
-                    <span>MY FORUM</span>
+                    <img src='style\Path 5.svg'>
+                    <span>OnCred</span>
                 </div>
 
                 <!-- Barra de Pesquisa -->
@@ -26,7 +26,7 @@ class HomeControllerTemp implements Itemplate
                 <span> Bem Vindo, " . htmlspecialchars($_SESSION['usuario']) . "!</span>
                 </div>
                 <div class='logo'>
-                    <a href='perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . "'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-comments'></i> </button></a>
+                    <a href='perfil?id=" . htmlspecialchars($_SESSION['id_usuario']) . "'><button class='btn-login' onclick='openEntrarModal()'> <i class='fas fa-user'></i> </button></a>
                 </div>
             </div>
         </header>";
@@ -37,8 +37,8 @@ class HomeControllerTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <i class='fas fa-comments'></i>
-                    <span>MY FORUM</span>
+                    <img src='style\Path 5.svg'>
+                    <span>OnCred</span>
                 </div>
 
                 <!-- Barra de Pesquisa -->
