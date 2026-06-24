@@ -3,8 +3,6 @@ if (!isset($parametro) || !is_array($parametro)) {
   $parametro = [];
 }
 $logado = $_SESSION['logado'] ?? false;
-//echo $_SESSION['usuario'];
-//$usuario = $_SESSION['usuario'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -20,16 +18,6 @@ $logado = $_SESSION['logado'] ?? false;
 </head>
 
 <body>
-  <span><?php //var_dump($_SESSION['id_usuario']) 
-        ?></span>
-  <span><?php //var_dump(isset($_SESSION)) 
-        ?></span>
-  <span><?php                                   //id_usuario / qual credencial / dados
-        //var_dump($parametro['credenciais'][1][0])
-        //var_dump($parametro['credenciais'][1])
-        //var_dump($parametro['interacoes']);
-        //var_dump($_SESSION['teste']);
-        ?></span>
   <!-- Main Container -->
   <div class="post-container">
     <!-- Post Principal -->
@@ -39,13 +27,13 @@ $logado = $_SESSION['logado'] ?? false;
         <div class="post-full-user">
           <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($parametro["post"]['nome_usuario'] ?? 'Anônimo') ?>&background=random" alt="Autor">
           <div class="post-full-user-info">
-            <h4><?php echo htmlspecialchars($parametro["post"]['nome_usuario'] ?? 'N/A'); ?></h4>
-            <span>em r/DesenvolvimentoWeb • 2 dias atrás</span>
+            <a href='perfil?id=<?php echo $parametro['post']['usuario_id'] ?>' style='text-decoration:none'>
+              <h4><?php echo htmlspecialchars($parametro["post"]['nome_usuario'] ?? 'N/A'); ?></h4>
+            </a>
+            <span><?php echo $parametro['post']['categoria'] ?></span>
+            <span><?php echo $parametro['post']['data'] ?></span>
           </div>
         </div>
-        <button class="post-full-options">
-          <i class="fas fa-ellipsis-h"></i>
-        </button>
       </div>
 
       <!-- Post Body -->
@@ -63,6 +51,7 @@ $logado = $_SESSION['logado'] ?? false;
             <i class="fas fa-star"></i>
             <span>Upvote <?php ini_set('display_errors', '0');
                           echo $parametro['interacoes'][0]['total'] ?? '0' ?> </span>
+          </button>
         </form>
         <form method="POST" action="downvote">
           <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
@@ -71,6 +60,7 @@ $logado = $_SESSION['logado'] ?? false;
             <i class="fas fa-times"></i>
             <span>Downvote <?php echo $parametro['interacoes'][1]['total'] ?? '0';
                             ini_set('display_errors', '1'); ?> </span>
+          </button>
         </form>
         <form method="POST" action="salvar">
           <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($parametro['id'] ?? ''); ?>">
@@ -114,11 +104,7 @@ $logado = $_SESSION['logado'] ?? false;
 
       <!-- Comments List -->
       <div class="comments-list" id="comentariosList">
-        <?php
-        if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])):
-          // Importar service para carregar credenciais
-          $credenciaisCache = [];
-        ?>
+        <?php if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])): ?>
           <?php foreach ($parametro['comentarios'] as $comentario):
             $usuario_id = $comentario['usuario_id'] ?? null;
           ?>
@@ -131,10 +117,7 @@ $logado = $_SESSION['logado'] ?? false;
                   <div class="comment-user-details">
                     <div class="comment-author-row">
                       <strong class="comment-author"><?php echo '<a style="text-decoration: none" href=perfil?id=' . htmlspecialchars($usuario_id) . '>' . htmlspecialchars($comentario['nome_usuario'] ?? 'Anônimo') . '</a>'; ?></strong>
-                      <?php //if (!empty($credenciais) && is_array($credenciais)): 
-                      ?>
                       <div class="comment-credentials">
-
                         <?php foreach (($parametro['credenciais'][$usuario_id] ?? []) as $credencial):
                           $nome = htmlspecialchars($credencial['nome'] ?? '');
                           $desc = htmlspecialchars($credencial['descricao'] ?? '');
@@ -146,8 +129,6 @@ $logado = $_SESSION['logado'] ?? false;
                           </span>
                         <?php endforeach; ?>
                       </div>
-                      <?php //endif; 
-                      ?>
                     </div>
                   </div>
                 </div>
@@ -359,7 +340,6 @@ $logado = $_SESSION['logado'] ?? false;
         closeEntrarModal();
       }
     }
-
   </script>
 
 </body>

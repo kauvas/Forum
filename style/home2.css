@@ -98,16 +98,42 @@ body {
 }
 
 .btn-titulo {
-    padding: 0.65rem 1.25rem;
-    border: 2px solid rgb(255, 255, 255);
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.5rem; /* Espaço para ícone se necessário */
+    
+    /* Fundo sutil e borda delicada */
+    background-color: rgba(102, 126, 234, 0.06); /* Um toque leve de azul/roxo */
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: #667eea; /* Cor do texto combinando com a borda */
+    
+    /* Tipografia */
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none; /* Remove o sublinhado do link */
+    
+    /* Espaçamento e Bordas */
+    padding: 0.6rem 1.3rem;
+    border-radius: 8px;
+    
+    /* Transições suaves */
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+/* Efeito ao passar o mouse (ganha um pouco mais de corpo, mas sem perder a sutileza) */
+.btn-titulo:hover {
+    background-color: rgba(102, 126, 234, 0.12);
+    border-color: #667eea;
+    color: #5a6fd6;
+    transform: translateY(-1px); /* Flutuação bem leve */
+}
+
+/* Efeito ao clicar */
+.btn-titulo:active {
+    transform: translateY(0);
+    background-color: rgba(102, 126, 234, 0.18);
 }
 
 .btn-login,

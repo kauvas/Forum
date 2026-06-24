@@ -28,9 +28,9 @@ $usuario = $_SESSION['usuario'] ?? null;
         <h3><i class="fas fa-home"></i> Menu</h3>
 
         <ul class="nav-list">
-          <li><a href="home" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
-          <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
+          <li><a href="home?t=0" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="home?t=1" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
+          <li><a href="home?t=2" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
           <li><a href="perfil?id=<?php echo $_SESSION['id_usuario'] ?>" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>
         </ul>
       </nav>
@@ -38,8 +38,6 @@ $usuario = $_SESSION['usuario'] ?? null;
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="content">
-      <?php //var_dump($parametro) 
-      ?>
       <div class="criar-post-container">
         <div class="criar-post-header">
           <i class="fas fa-edit"></i>

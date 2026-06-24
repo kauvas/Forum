@@ -2,16 +2,25 @@
 
 namespace dao\mysql;
 
-//use dao\IPerfilController]DAO;
 use generic\MysqlFactory;
 
-class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO*/
+class PerfilControllerDAO extends MysqlFactory
 {
     public function getPostsID($usuario_id)
     {
         $sql = "select * from posts where usuario_id = :usuario_id";
         $param = [
             ":usuario_id" => $usuario_id
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getPostsPostID($post_id)
+    {
+        $sql = "select titulo, post_id from posts where post_id = :post_id";
+        $param = [
+            ":post_id" => $post_id
         ];
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
@@ -27,12 +36,20 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
         return $retorno;
     }
 
-    public function getUsuarioDados($usuario_id)
+    public function getUsuarioDados($usuario_id, $t)
     {
-        $sql = "select email, id, usuario, biografia from usuarios where id = :usuario_id";
-        $param = [
-            ":usuario_id" => $usuario_id
-        ];
+        if ($t == 0) {
+            $sql = "select email, id, usuario, biografia from usuarios where id = :usuario_id";
+            $param = [
+                ":usuario_id" => $usuario_id
+            ];
+        } else {
+            $sql = "select usuario from usuarios where id = :usuario_id";
+            $param = [
+                ":usuario_id" => $usuario_id
+            ];
+        }
+
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;
     }
@@ -123,7 +140,7 @@ class PerfilControllerDAO extends MysqlFactory /*implements IPerfilControllerDAO
 
     public function getPostsSalvos($usuario_id)
     {
-        $sql = "SELECT DISTINCT p.post_id, p.titulo, p.conteudo, p.usuario_id AS autor_post
+        $sql = "SELECT DISTINCT p.post_id, p.titulo, p.conteudo, p.usuario_id, p.categoria, p.data
                 FROM posts p
                 INNER JOIN interacoes i ON p.post_id = i.post_id
                 WHERE i.tipo = 3 

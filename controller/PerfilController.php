@@ -19,14 +19,10 @@ class PerfilController
         $service = new PerfilControllerService();
         session_start();
         $id = $_GET['id'];
-        $s = $_GET['s'] ?? null;
-        if ($s == 1) {
-            $posts = $service->getPostsSalvos($id);
-        } else {
-            $posts = $service->getPostsID($id);
-        }
+        $postsSalvos = $service->getPostsSalvos($id);
+        $posts = $service->getPostsID($id);
         $comentarios = $service->getComentarios($id);
-        $dados_usuario = $service->getUsuarioDados($id);
+        $dados_usuario = $service->getUsuarioDados($id, 0);
         $dados_credenciais = $service->getCredenciais($id);
 
         $comentarios_por_usuario = [];
@@ -48,9 +44,31 @@ class PerfilController
             ];
         }
 
-        $posts_salvos = $service->getPostsSalvos($id);
+        $contagens_por_posts_salvos = [];
+        foreach ($postsSalvos as $post) {
+            $resultado_comentarios = $service->getCountComentariosPost($post['post_id']);
+            $resultado_interacoes = $service->getInteracoes($post['post_id']);
+            $contagens_por_posts_salvos[$post['post_id']]['comentarios'] = $resultado_comentarios[0]['total_comentarios'] ?? 0;
+            $contagens_por_posts_salvos[$post['post_id']]['interacoes'] = [
+                "upvotes" => $resultado_interacoes[0]['total'] ?? 0,
+                "downvotes" => $resultado_interacoes[1]['total'] ?? 0,
+            ];
+        }
 
-        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios, "dados_usuario" => $dados_usuario, "dados_credenciais" => $dados_credenciais, "comentarios_por_usuario" => $comentarios_por_usuario, "posts_por_usuario" => $posts_por_usuario, "contagens_por_posts" => $contagens_por_posts, "posts_salvos" => $posts_salvos, "id_pagina" => $id, "estado_salvo" => $s]);
+        $i = 0;
+        foreach ($comentarios as $coment) {
+            $post = $service->getPostsPostID($coment['post_id']);
+            $comentarios[$i]['titulo'] = $post[0]['titulo'];
+            $i += 1;
+        }
+
+        $nomes_por_post = [];
+        foreach ($postsSalvos as $post) {
+            $usuario = $service->getUsuarioDados($post['usuario_id'], 1);
+            $nomes_por_post[$post['post_id']] = $usuario;
+        }
+
+        $this->template->layout("Perfil.php", ["posts" => $posts, "comentarios" => $comentarios, "dados_usuario" => $dados_usuario, "dados_credenciais" => $dados_credenciais, "comentarios_por_usuario" => $comentarios_por_usuario, "posts_por_usuario" => $posts_por_usuario, "contagens_por_posts" => $contagens_por_posts, "posts_salvos" => $postsSalvos, "id_pagina" => $id, "contagens_por_posts_salvos" => $contagens_por_posts_salvos, "nomes_por_post" => $nomes_por_post]);
     }
 
     public function editarBiografia()

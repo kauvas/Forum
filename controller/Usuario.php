@@ -16,16 +16,18 @@ class Usuario
 
     public function registrar()
     {
+        session_start();
         $service = new UsuarioService();
         $nome = $_POST['nome'];
         $usuario = $_POST['usuario'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         $service->registrar($nome, $usuario, $email, $senha);
-        //$_SESSION["usuario"] = $usuario[0]['usuario'];
-        //$_SESSION["id_usuario"] = $usuario[0]['id'];
+        $id = $service->getID($email);
+        $_SESSION["usuario"] = $usuario;
+        $_SESSION["id_usuario"] = $id[0]['id'];
         $_SESSION["logado"] = true;
-        header("Location: home");
+        header("Location: home?t=0");
     }
 
     public function login()
@@ -41,26 +43,15 @@ class Usuario
             $_SESSION["id_usuario"] = $usuario[0]['id'];
             $_SESSION["logado"] = true;
 
-            header("Location: home");
+            header("Location: home?t=0");
         } else {
             session_destroy();
-            header("Location: home#erro");
+            header("Location: home?t=0#erro");
         }
     }
 
     public function atualizarConta()
     {
-        /*
-        echo $_POST['email'];
-        echo '<br>';
-        echo $_POST['nova_senha'];
-        if (empty($_POST['nova_senha'])) {
-            echo "nada";
-        }
-        echo '<br>';
-        echo $_POST['id_usuario'];
-        */
-
         $service = new UsuarioService();
         $email = $_POST['email'];
         $senha = $_POST['nova_senha'];

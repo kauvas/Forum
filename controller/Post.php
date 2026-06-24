@@ -58,7 +58,7 @@ class Post
         $tags = $_POST['tags'];
         $conteudo = $_POST['conteudo'];
         $service->criarPost($usuario_id, $titulo, $categoria, $tags, $conteudo);
-        header("Location: home");
+        header("Location: home?t=0");
     }
 
     public function criarComentario()

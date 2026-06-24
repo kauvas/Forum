@@ -6,24 +6,24 @@ use dao\mysql\HomeControllerDAO;
 
 class HomeControllerService extends HomeControllerDAO
 {
-    public function teste()
+    public function getPosts($t)
     {
-        return parent::teste();
-    }
-    public function getPosts()
-    {
-        return parent::getPosts();
+        return parent::getPosts($t);
     }
     public function getCategories()
     {
         return parent::getCategories();
     }
-    public function getPostsByCategory($categoria)
+    public function getPostsByCategory($categoria, $t)
     {
-        return parent::getPostsByCategory($categoria);
+        return parent::getPostsByCategory($categoria, $t);
     }
     public function getCountComentarios($post_id)
     {
         return parent::getCountComentarios($post_id);
+    }
+    public function getInteracoes($post_id)
+    {
+        return parent::getInteracoes($post_id);
     }
 }

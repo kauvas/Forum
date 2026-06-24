@@ -2,10 +2,9 @@
 
 namespace dao\mysql;
 
-//use dao\IUsuarioDAO;
 use generic\MysqlFactory;
 
-class UsuarioDAO extends MysqlFactory /*implements IUsuarioDAO*/
+class UsuarioDAO extends MysqlFactory
 {
     public function registrar($nome, $usuario, $email, $senha)
     {
@@ -15,6 +14,16 @@ class UsuarioDAO extends MysqlFactory /*implements IUsuarioDAO*/
             ":usuario" => $usuario,
             ":email" => $email,
             ":senha" => $senha
+        ];
+        $retorno = $this->banco->executar($sql, $param);
+        return $retorno;
+    }
+
+    public function getID($email)
+    {
+        $sql = "select id from usuarios where email = :email";
+        $param = [
+            ":email" => $email,
         ];
         $retorno = $this->banco->executar($sql, $param);
         return $retorno;

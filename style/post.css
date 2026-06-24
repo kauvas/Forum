@@ -119,8 +119,14 @@
     background: #f9fafb;
 }
 
+/* Nova regra: Quem deve expandir igualmente agora são os formulários */
+.action-form {
+    flex: 1; 
+    display: flex;
+}
+
 .action-btn {
-    flex: 1;
+    width: 100%; /* Faz o botão ocupar 100% do espaço do formulário expandido */
     display: flex;
     align-items: center;
     justify-content: center;

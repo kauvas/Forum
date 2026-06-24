@@ -11,7 +11,7 @@ class postTemp implements Itemplate
             <div class='header-container'>
                 <!-- Logo -->
                 <div class='logo'>
-                    <a href='home'><img src='style\Path 5.svg'></a>
+                    <a href='home?t=0'><img src='style\Path 5.svg'></a>
                     <span>OnCred</span>
                 </div>
 

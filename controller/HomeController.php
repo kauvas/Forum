@@ -24,7 +24,8 @@ class HomeController
             session_destroy();
         }
         ini_set('display_errors', '1');
-        $posts = $service->getPosts();
+        $t = $_GET['t'] ?? 0;
+        $posts = $service->getPosts($t);
         $categorias = $service->getCategories();
 
         $comentarios_por_post = [];
@@ -42,7 +43,7 @@ class HomeController
         ini_set('display_errors', '0');
         if ($_GET['categoria']) {
             $categoria = $_GET['categoria'];
-            $posts = $service->getPostsByCategory($categoria);
+            $posts = $service->getPostsByCategory($categoria, $t);
             $this->template->layout("Home.php", ["posts" => $posts, "categorias" => $categorias, "categoriaSelecionada" => $categoria, "comentarios_por_post" => $comentarios_por_post, "interacoes_por_post" => $interacoes_por_post]);
         } else {
             ini_set('display_errors', '1');
@@ -55,6 +56,6 @@ class HomeController
         session_start();
         $_SESSION = [];
         session_destroy();
-        header("Location: home");
+        header("Location: home?t=0");
     }
 }

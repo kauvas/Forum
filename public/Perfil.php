@@ -2,18 +2,8 @@
 if (!isset($parametro) || !is_array($parametro)) {
   $parametro = [];
 }
-//echo $_SESSION['usuario'];
 $usuario = $_SESSION['usuario'] ?? null;
 $dados = $parametro["dados_usuario"][0]["usuario"] ?? null;
-
-$karma = 0;
-if ($parametro['estado_salvo'] == null) {
-  foreach ($parametro["posts"] as $post) {
-    $karma += $parametro['contagens_por_posts'][$post['post_id']]['interacoes']['upvotes'];
-    $karma -= $parametro['contagens_por_posts'][$post['post_id']]['interacoes']['downvotes'];
-    $_SESSION['karmaReal'] = $karma;
-  }
-}
 
 ?>
 
@@ -29,9 +19,6 @@ if ($parametro['estado_salvo'] == null) {
 </head>
 
 <body>
-  <?php //var_dump($parametro["dados_usuario"][0]) 
-  ?>
-
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
     <!-- SIDEBAR -->
@@ -42,12 +29,16 @@ if ($parametro['estado_salvo'] == null) {
         <?php ini_set('display_errors', '0');
         if ($_SESSION['logado'] == true) {
           echo '<a class="btn-novo-topico" href="CriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
-        } ?>
+        }
+        ini_set('display_errors', '1'); ?>
 
         <ul class="nav-list">
-          <li><a href='home' class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
-          <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
+          <li><a href='home?t=0' class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="home?t=1" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
+          <li><a href="home?t=2" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
+          <?php if (isset($usuario)) {
+            echo '<li><a href="perfil?id=' . htmlspecialchars($_SESSION['id_usuario']) . '" class="nav-link active"><i class="fas fa-user"></i> Meus Posts</a></li>';
+          } ?>
         </ul>
       </nav>
     </aside>
@@ -65,23 +56,13 @@ if ($parametro['estado_salvo'] == null) {
 
           <div class="profile-info">
             <div class="profile-name-section">
-              <h1 class="profile-username">u/<?php echo htmlspecialchars($dados); ?></h1>
+              <h1 class="profile-username"><?php echo htmlspecialchars($dados); ?></h1>
               <?php if (isset($usuario) && $usuario === $dados): ?>
-                <button class="btn-edit-profile"><i class="fas fa-edit"></i> Editar Perfil</button>
+                <button class="btn-edit-profile"><i class="fas fa-edit"></i> Editar Perfil/Conta</button>
               <?php endif; ?>
             </div>
 
             <div class="profile-stats">
-              <div class="stat-item">
-                <span class="stat-label">Karma</span>
-                <span class="stat-value"><?php
-                                          if ($parametro['estado_salvo'] == 0) {
-                                            echo $karma;
-                                          } else {
-                                            echo $_SESSION['karmaReal'];
-                                          }
-                                          ?></span>
-              </div>
               <div class="stat-item">
                 <span class="stat-label">Posts</span>
                 <span class="stat-value"><?php echo $parametro['posts_por_usuario'] ?></span>
@@ -117,35 +98,30 @@ if ($parametro['estado_salvo'] == null) {
         </div>
       </div>
 
-      <!-- Abas de Conteúdo -->
       <div class="profile-tabs">
-        <?php if ($parametro['estado-salvo'] == 1): ?>
-          <button class="tab-btn active" onclick="switchProfileTab('posts')">
-            <i class="fas fa-pen-fancy"></i> Posts
-          </button>
-        <?php else: ?>
-          <a href="perfil?id=<?php echo $parametro['id_pagina'] ?>" style="text-decoration: none" class="tab-btn">
-            <i class="fas fa-pen-fancy"></i> Posts</a>
-        <?php endif ?>
+        <button class="tab-btn active" onclick="switchProfileTab('posts')">
+          <i class="fas fa-pen-fancy"></i> Posts
+        </button>
         <button class="tab-btn" onclick="switchProfileTab('comentarios')">
           <i class="fas fa-comments"></i> Comentários
         </button>
-        <a href="perfil?id=<?php echo $parametro['id_pagina'] ?>&s=1" style="text-decoration: none" class="tab-btn">
-          <i class="fas fa-bookmark"></i> Salvos</a>
+        <button class="tab-btn" onclick="switchProfileTab('saved')">
+          <i class="fas fa-bookmark"></i> Salvos
+        </button>
       </div>
 
       <!-- Conteúdo das Abas -->
       <div id="postsTab" class="tab-pane active">
         <!-- Posts do Usuário - Dinâmicos -->
-        <?php if (!empty($parametro['posts']) && is_array($parametro['posts'])): ?>
+        <?php if (!empty($parametro['posts']) || !empty($parametro["comentarios"])): ?>
           <?php foreach ($parametro['posts'] as $post): ?>
             <article class="post-item">
               <div class="post-header">
                 <div class="user-info">
                   <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($dados)); ?>&background=random" alt="Usuário">
                   <div class="user-details">
-                    <h4>u/<?php echo htmlspecialchars($dados); ?></h4>
-                    <span class="post-date"><?php echo htmlspecialchars($post['data_criacao'] ?? 'agora'); ?></span>
+                    <h4><?php echo htmlspecialchars($dados); ?></h4>
+                    <span class="post-date"><?php echo htmlspecialchars($post['data'] ?? 'agora'); ?></span>
                   </div>
                 </div>
                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
@@ -180,42 +156,75 @@ if ($parametro['estado_salvo'] == null) {
       <div id="comentariosTab" class="tab-pane">
         <!-- Comentários do Usuário - Dinâmicos -->
         <?php if (!empty($parametro['comentarios']) && is_array($parametro['comentarios'])): ?>
-          <?php foreach ($parametro['comentarios'] as $comentario):
-            foreach ($parametro['posts'] as $post): ?>
-
-              <article class="comment-item" style="border-left: 4px solid #3b4fc9; padding: 15px; margin-bottom: 15px; background-color: #f6f7fb; border-radius: 4px;">
-                <div class="comment-header">
-                  <div class="user-info">
-                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($dados)); ?>&background=random" alt="Usuário" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 10px;">
-                    <div class="user-details">
-                      <h4>u/<?php echo htmlspecialchars($dados); ?></h4>
-                      <span class="post-date"><?php echo htmlspecialchars($comentario['data_criacao'] ?? 'agora'); ?></span>
-                    </div>
+          <?php foreach ($parametro['comentarios'] as $comentario): ?>
+            <article class="comment-item" style="border-left: 4px solid #3b4fc9; padding: 15px; margin-bottom: 15px; background-color: #f6f7fb; border-radius: 4px;">
+              <div class="comment-header">
+                <div class="user-info">
+                  <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($dados)); ?>&background=random" alt="Usuário" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 10px;">
+                  <div class="user-details">
+                    <h4><?php echo htmlspecialchars($dados); ?></h4>
                   </div>
                 </div>
-                <p class="comment-text" style="margin: 10px 0; line-height: 1.5;">
-                  <?php echo htmlspecialchars($comentario['conteudo'] ?? 'Sem conteúdo'); ?>
-                </p>
-                <div class="comment-footer" style="font-size: 0.9em; color: #555;">
-                  <strong>Comentado em: </strong>
-                  <span style="color: #3b4fc9;">
-                    <?php
-                    $post_id = $comentario['post_id'] ?? null;
-                    if ($post_id) {
-                      echo htmlspecialchars($post['titulo'] ?? 'Sem título');
-                    } else {
-                      echo "Post removido";
-                    }
-                    ?>
-                  </span>
-                </div>
-              </article>
-          <?php endforeach;
-          endforeach; ?>
+              </div>
+              <p class="comment-text" style="margin: 10px 0; line-height: 1.5;">
+                <?php echo htmlspecialchars($comentario['conteudo'] ?? 'Sem conteúdo'); ?>
+              </p>
+              <div class="comment-footer" style="font-size: 0.9em; color: #555;">
+                <strong>Comentado em: </strong>
+                <span style="color: #3b4fc9;">
+                  <?php
+                  echo "<a href='post?id=" . htmlspecialchars($comentario['post_id']) . "' style='text-decoration: none'>" . htmlspecialchars($comentario['titulo'] ?? 'Sem título') . "</a>";
+                  ?>
+                </span>
+              </div>
+            </article>
+          <?php endforeach; ?>
         <?php else: ?>
           <p style="text-align: center; padding: 20px;">Nenhum comentário realizado ainda.</p>
         <?php endif; ?>
       </div>
+
+      <div id="savedTab" class="tab-pane">
+        <!-- Posts do Usuário - Dinâmicos -->
+        <?php if (!empty($parametro['posts_salvos']) || !empty($parametro["comentarios"])): ?>
+          <?php foreach ($parametro['posts_salvos'] as $post): ?>
+            <article class="post-item">
+              <div class="post-header">
+                <div class="user-info">
+                  <img src="https://ui-avatars.com/api/?name=<?php echo urlencode(htmlspecialchars($parametro['nomes_por_post'][$post['post_id']][0]['usuario'])); ?>&background=random" alt="Usuário">
+                  <div class="user-details">
+                    <h4><?php echo htmlspecialchars($parametro['nomes_por_post'][$post['post_id']][0]['usuario']); ?></h4>
+                    <span class="post-date"><?php echo htmlspecialchars($post['data'] ?? 'agora'); ?></span>
+                  </div>
+                </div>
+                <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
+              </div>
+              <a href="post?id=<?php echo $post['post_id']; ?>" style="text-decoration: none; color: inherit;">
+                <button class='btn-titulo'>
+                  <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
+                </button>
+              </a>
+              <p class="post-excerpt"><?php
+                                      $conteudo = $post['conteudo'] ?? 'Sem conteúdo';
+                                      $tam_string = 110;
+                                      if (strlen($conteudo) > $tam_string) {
+                                        echo htmlspecialchars(substr($conteudo, 0, $tam_string)) . '...';
+                                      } else {
+                                        echo htmlspecialchars($conteudo);
+                                      }
+                                      ?><br></p>
+              <div class="post-footer">
+                <span class="post-stats"><i class="fas fa-comment"></i> <?php echo $parametro["contagens_por_posts_salvos"][$post['post_id']]['comentarios'] ?? '0'; ?> comentários</span>
+                <span class="post-stats"><i class="fas fa-star"></i> <?php echo $parametro["contagens_por_posts_salvos"][$post['post_id']]['interacoes']['upvotes'] ?? '0'; ?> upvotes</span>
+                <span class="post-stats"><i class="fas fa-times"></i> <?php echo $parametro["contagens_por_posts_salvos"][$post['post_id']]['interacoes']['downvotes'] ?? '0'; ?> downvotes</span>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p style="text-align: center; padding: 20px;">Nenhum post ainda. Comece a compartilhar!</p>
+        <?php endif; ?>
+      </div>
+
     </main>
   </div>
   <?php if (isset($usuario) && $usuario === $dados): ?>
@@ -271,8 +280,8 @@ if ($parametro['estado_salvo'] == null) {
                   echo "
                                 <div class=\"credential-input-group\">
                                     <div class=\"credential-field-wrapper\">
-                                        <small class=\"form-input credential-input credential-name\">{$nome}</small>
-                                        <small class=\"credential-description\">{$descricao}</small>
+                                        <span  class=\"form-input credential-input credential-name\">{$nome}</span >
+                                        <span class=\"credential-description\">{$descricao}</span>
                                     </div>
                                     <a class=\"btn-remove-credential\" href=\"removerCredencial?id_credencial={$credencial['credencial_id']}&id_usuario={$credencial['usuario_id']}\">
                                         <i class=\"fas fa-trash\"></i>

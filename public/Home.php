@@ -17,8 +17,6 @@ $usuario = $_SESSION['usuario'] ?? null;
 </head>
 
 <body>
-  <?php //var_dump($parametro['interacoes_por_post']); //var_dump($usuario)  
-  ?>
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
     <!-- SIDEBAR -->
@@ -27,14 +25,17 @@ $usuario = $_SESSION['usuario'] ?? null;
       <nav class="sidebar-nav">
         <h3><i class="fas fa-home"></i> Menu</h3>
         <?php if (isset($usuario)) {
-          //echo '<button class="filter-btn"><a href="carregarCriarPost" class="nav-link"><i class="fas fa-bookmark"></i> Criar Post</a></button>';
           echo '<a class="btn-novo-topico" href="CriarPost" style="text-decoration: none"><i class="fas fa-bookmark"></i> Criar Post</a>';
         } ?>
 
         <ul class="nav-list">
-          <li><a href="home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="#populares" class="nav-link"><i class="fas fa-fire"></i> Populares</a></li>
-          <li><a href="#recentes" class="nav-link"><i class="fas fa-clock"></i> Recentes</a></li>
+          <li><a href="home?t=0" class="nav-link <?php ini_set('display_errors', '0');
+                                                  if ($_GET['t'] == 0) echo 'active';
+                                                  ini_set('display_errors', '1'); ?>"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<?php if ($_GET['categoria'] ?? false) echo 'home?categoria=' . $_GET['categoria'] . '&t=1';
+                        else echo 'home?t=1' ?>" class="nav-link <?php if ($_GET['t'] == 1) echo 'active' ?>"><i class="fas fa-clock"></i> Recentes</a></li>
+          <li><a href="<?php if ($_GET['categoria'] ?? false) echo 'home?categoria=' . $_GET['categoria'] . '&t=2';
+                        else echo 'home?t=2' ?>" class="nav-link <?php if ($_GET['t'] == 2) echo 'active' ?>"><i class="fas fa-fire"></i> Populares</a></li>
           <?php if (isset($usuario)) {
             echo '<li><a href="perfil?id=' . htmlspecialchars($_SESSION['id_usuario']) . '" class="nav-link"><i class="fas fa-user"></i> Meus Posts</a></li>';
           } ?>
@@ -46,7 +47,8 @@ $usuario = $_SESSION['usuario'] ?? null;
         <ul class="categories-list">
           <?php if (!empty($parametro['categorias']) && is_array($parametro['categorias'])): ?>
             <?php foreach ($parametro['categorias'] as $categoria): ?>
-              <li><a href="home?categoria=<?php echo $categoria['categoria'] ?>" class="category-link"><span class="badge"><?php echo htmlspecialchars($categoria['total_posts'] ?? '0'); ?></span> <?php echo htmlspecialchars($categoria['categoria'] ?? 'Sem nome'); ?></a></li>
+              <li><a href="home?categoria=<?php echo $categoria['categoria'];
+                                          echo "&t=" . $_GET['t']; ?>" class="category-link"><span class="badge"><?php echo htmlspecialchars($categoria['total_posts'] ?? '0'); ?></span> <?php echo htmlspecialchars($categoria['categoria'] ?? 'Sem nome'); ?></a></li>
             <?php endforeach; ?>
           <?php endif; ?>
         </ul>
@@ -55,15 +57,11 @@ $usuario = $_SESSION['usuario'] ?? null;
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="content">
-
       <!-- Posts -->
       <div class="posts-container">
         <!-- Posts Dinâmicos -->
-
-        <?php //var_dump($parametro)  
-        ?>
         <?php if (!empty($parametro['posts']) && is_array($parametro['posts'])): ?>
-          <?php foreach ($parametro['posts'] as $post):; //var_dump($post["conteudo"]); 
+          <?php foreach ($parametro['posts'] as $post):;
           ?>
             <article class="post-item">
               <div class="post-header">
@@ -71,17 +69,17 @@ $usuario = $_SESSION['usuario'] ?? null;
                 <div class="user-info">
                   <img src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($post['nome_usuario'] ?? 'Anônimo'); ?>&background=random" alt="Usuário">
                   <div class="user-details">
-                    <h4><?php echo htmlspecialchars($post['nome_usuario'] ?? 'Usuário Anônimo'); ?></h4>
-                    <span class="post-date"><?php echo htmlspecialchars($post['data_criacao'] ?? 'agora'); ?></span>
+                    <a href="perfil?id=<?php echo $post['usuario_id'] ?>" style='text-decoration:none'>
+                      <h4><?php echo htmlspecialchars($post['nome_usuario'] ?? 'Usuário Anônimo'); ?></h4>
+                    </a>
+                    <span class="post-date"><?php echo htmlspecialchars($post['data'] ?? 'agora'); ?></span>
                   </div>
                 </div>
                 <span class="category-badge"><?php echo htmlspecialchars($post['categoria'] ?? 'Artigo'); ?></span>
               </div>
 
-              <a href="post?id=<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>" style="text-decoration: none">
-                <button class="btn-titulo">
-                  <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
-                </button>
+              <a class="btn-titulo" href="post?id=<?php echo htmlspecialchars($post['post_id'] ?? ''); ?>" style="text-decoration: none">
+                <h3><?php echo htmlspecialchars($post['titulo'] ?? 'Sem título'); ?></h3>
               </a>
 
               <p class="post-excerpt"><?php
@@ -130,12 +128,6 @@ $usuario = $_SESSION['usuario'] ?? null;
             <div class="form-group">
               <label for="senha"><i class="fas fa-lock"></i> Senha</label>
               <input type="password" name="senha" id="senha" required placeholder="Digite sua senha">
-            </div>
-
-            <div class="form-remember">
-              <input type="checkbox" id="rememberMe" name="rememberMe">
-              <label for="rememberMe">Lembrar-me</label>
-              <a href="#" class="forgot-password">Esqueceu a senha?</a>
             </div>
 
             <button type="submit" class="btn-submit">
